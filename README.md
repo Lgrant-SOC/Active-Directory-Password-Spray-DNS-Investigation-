@@ -132,7 +132,24 @@ Observed key security events:
 <img width="3024" height="4032" alt="IMG_4138" src="https://github.com/user-attachments/assets/6c25f4d6-b81b-46f7-a282-092abdc401ed" />
 <img width="3024" height="4032" alt="IMG_4137" src="https://github.com/user-attachments/assets/def09d40-6efc-4c79-b2bd-3148bd3235d7" />
 
-### 🔍 Phase 1: Deep-Dive Forensic Analysis
+---
+
+## 🎯 Phase 2: Active Directory Authentication Investigation
+
+### 📋 Overview
+This phase simulates an active authentication brute-force spray against a target endpoint within a segregated virtualization subnet. The objective was to successfully execute the credential spray and manually isolate forensic artifacts hidden within raw host system logging.
+
+### 🎯 Objectives
+* Execute a dictionary-based password spray over port 445 (SMB) using Hydra
+* Bypass native host firewalls programmatically using administrative PowerShell tools
+* Extract and verify raw XML loopback metadata from Windows Event ID 4625
+* Attribute network attack signatures to the local Security Accounts Manager (SAM) process
+
+### 🔍 Forensic Analysis (Deep Dive)
+Upon inspecting the target workstation's Windows Security Log (`eventvwr.msc`), over 13,000 background events were filtered down to isolate **Event ID 4625 (An account failed to log on)**. 
+
+Deep inspection of the raw Event metadata under the `Details > EventData` block revealed a `ProcessName` attribution to `C:\Windows\System32\svchost.exe` and a loopback `IpAddress` of `127.0.0.1`. In a non-domain joined testing environment, this specific loopback signature confirms that network authentication requests over port 445 successfully reached the host and were routed internally to the local Security Accounts Manager (SAM) database for validation.
+
 
 Upon inspecting the target workstation's Windows Security Log (`eventvwr.msc`), over 13,000 background events were filtered down to isolate **Event ID 4625 (An account failed to log on)**. 
 
