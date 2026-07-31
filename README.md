@@ -147,3 +147,13 @@ Successfully identified and correlated SMB reconnaissance, authentication attemp
 * Failed logons (4625) are critical indicators of brute-force attempts
 * Credential events (5379) can indicate post-exploitation behavior
 * Correlation between network activity and logs is essential for detection
+
+
+### Phase 1: Local Loopback Extraction & Verification
+
+#### Forensic Analysis (Deep Dive)
+Upon inspecting the target workstation's Windows Security Log (`eventvwr.msc`), over 13,000 background events were filtered down to isolate **Event ID 4625 (An account failed to log on)**. 
+
+Deep inspection of the raw Event metadata under the `Details > EventData` block revealed a `ProcessName` attribution to `C:\Windows\System32\svchost.exe` and a loopback `IpAddress` of `127.0.0.1`. In a non-domain joined testing environment, this specific loopback signature confirms that network authentication requests over port 445 successfully reached the host and were routed internally to the local Security Accounts Manager (SAM) database for validation.
+
+<img width="585" height="1266" alt="IMG_4551" src="https://github.com/user-attachments/assets/2fdb1eb8-5e32-41e5-9c98-fb31486ca96a" />
