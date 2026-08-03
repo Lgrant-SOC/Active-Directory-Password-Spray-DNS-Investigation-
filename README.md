@@ -22,8 +22,8 @@ This project simulates SMB reconnaissance and authentication attempts within a c
 * smbclient
 * Windows 10 (Target)
 * Windows Event Viewer
-* Sysmon (optional if used)
-* Wazuh SIEM (if applicable)
+* Sysmon 
+* Wazuh SIEM 
 
 ---
 
