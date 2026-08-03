@@ -121,7 +121,6 @@ Observed key security events:
 
 ---
 
-## 📸 Screenshots
 
 
 
