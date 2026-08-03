@@ -65,7 +65,8 @@ NT_STATUS_ACCESS_DENIED
 
 This indicates unauthorized access attempt against SMB shares.
 
----
+---<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/ca4e1fb1-59d7-4385-88d9-49d2811e7de5" />
+
 
 ### 3. Authentication Log Analysis (Windows)
 
