@@ -156,11 +156,3 @@ Upon inspecting the target workstation's Windows Security Log (`eventvwr.msc`), 
 Deep inspection of the raw Event data under the `Details > EventData` block revealed a `ProcessName` attribution to `C:\Windows\System32\svchost.exe` and a loopback `IpAddress` of `127.0.0.1`. In a non-domain joined testing environment, this specific loopback signature confirms that network authentication requests over port 445 successfully reached the host and were routed internally to the local Security Accounts Manager (SAM) database for validation.
 
 
-
-<img width="3024" height="4032" alt="IMG_4530" src="https://github.com/user-attachments/assets/0c3fe0fa-3aee-4baa-8e0e-c948d9e648e6" />
-
-
-
-
-<img width="3024" height="4032" alt="IMG_4545" src="https://github.com/user-attachments/assets/cf7a3470-cf63-477c-b8c9-9e298191059a" />
-
