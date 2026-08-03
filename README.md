@@ -77,7 +77,8 @@ Observed key security events:
 * **Event ID 4634** → Logoff activity
 * **Event ID 5379** → Credential access (Credential Manager)
 
----
+---<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/ecbcae93-e021-436b-988a-b540ded9d556" />
+
 
 ### 4. Log Correlation
 
