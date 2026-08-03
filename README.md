@@ -46,7 +46,8 @@ Attacker performed port scanning targeting SMB (port 445):
 
 This indicates potential changes in firewall behavior or service exposure.
 
----
+---<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/4b9ae45c-5676-4e7b-bddd-c21b84b234c9" />
+
 
 ### 2. SMB Enumeration Attempt
 
