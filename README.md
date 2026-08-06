@@ -143,7 +143,7 @@ This project simulates an aggressive authentication brute-force spray against a 
 
 Upon inspecting the target workstation's Windows Security Log (`eventvwr.msc`), over 13,000 background events were filtered down to isolate **Event ID 4625 (An account failed to log on)**. 
 
-Deep inspection of the raw Event data under the `Details > EventData` block revealed a `ProcessName` attribution to `C:\Windows\System32\svchost.exe` and a loopback `IpAddress` of `127.0.0.1`. In a non-domain joined testing environment, this specific loopback signature confirms that network authentication requests over port 445 successfully reached the host and were routed internally to the local Security Accounts Manager (SAM) database for validation.
+Deep inspection of the raw EventData fields revealed that the authentication attempt was associated with the process C:\Windows\System32\svchost.exe. The event also recorded the source IpAddress as 127.0.0.1 (loopback), indicating the failed authentication originated locally on the Windows system rather than from a remote host. This finding explained why the event did not represent the intended password spraying simulation from the Kali Linux attacker.
 
 
 
@@ -152,6 +152,81 @@ Deep inspection of the raw Event data under the `Details > EventData` block reve
 <img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/7f473ec3-d6b8-4172-b0fb-00a890be496b" />
 
 <img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/ed4bbf01-4716-43c1-977d-3f519f8a35ea" />
+
+Project Title
+Active Directory Password Spraying Investigation with Wazuh: Troubleshooting DNS Before Detection
+1. Lab Environment
+Attacker:
+- Kali Linux
+- IP: 192.168.56.109
+
+Target:
+- Windows Server 2022
+- Active Directory Domain Controller
+- Final IP: 192.168.56.106
+
+Client:
+- Windows 10
+- IP: 192.168.56.110
+
+SIEM:
+- Wazuh
+Include a simple network diagram.
+2. Objective
+Simulate a password spraying attack against an Active Directory Domain Controller using Hydra, investigate failed authentication events in Windows Event Logs and Wazuh, and document the troubleshooting process required to restore proper Active Directory communication before attack simulation.
+3. Initial Problem
+Describe exactly what happened.
+Example:
+During the initial attack simulation, Hydra failed to generate the expected network authentication events. Windows Event ID 4625 showed the source IP address as 127.0.0.1 instead of the Kali Linux attacker IP.
+Screenshot:
+4625
+
+IpAddress:
+127.0.0.1
+4. Investigation
+This is where your project becomes different from many others.
+You can write something like:
+Symptoms
+Windows 10 could not resolve lab.local.
+nslookup timed out.
+Windows could not locate the Domain Controller.
+Hydra attack did not produce expected remote authentication events.
+Include screenshots like:
+nslookup lab.local
+
+DNS request timed out.
+Root Cause
+Explain what you found.
+Example:
+Investigation revealed that the Domain Controller networking had become inconsistent. The Active Directory server was using a different Host-Only IP address than expected, while the Windows 10 client was still configured to query the previous DNS server.
+You can even include a table.
+Component	Before
+Windows 10 DNS	192.168.56.10
+Domain Controller	192.168.56.106
+Result	DNS timeout
+5. Corrective Actions
+Explain the fixes.
+Example:
+Verified VirtualBox adapters.
+Confirmed Host-Only network configuration.
+Updated Windows 10 DNS server.
+Verified Domain Controller registration.
+Tested DNS resolution.
+Validated Active Directory communication.
+Include screenshots of:
+nslookup lab.local
+working correctly.
+6. Validation
+Show the commands.
+ping 192.168.56.106
+Success.
+ping lab.local
+Success.
+nltest /dsgetdc:lab.local
+Success.
+This proves Active Directory was functioning again.
+
+
 
 
 
