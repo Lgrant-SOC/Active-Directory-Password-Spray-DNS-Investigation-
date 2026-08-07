@@ -171,58 +171,70 @@ Client:
 
 SIEM:
 - Wazuh
-Include a simple network diagram.
+
+### Lab Network Diagram
+
+```text
+               +----------------------------------------+
+
+               |        Virtual Network (Switch)        |
+```
+
+---
+
+
 2. Objective
 Simulate a password spraying attack against an Active Directory Domain Controller using Hydra, investigate failed authentication events in Windows Event Logs and Wazuh, and document the troubleshooting process required to restore proper Active Directory communication before attack simulation.
-3. Initial Problem
-Describe exactly what happened.
-Example:
-During the initial attack simulation, Hydra failed to generate the expected network authentication events. Windows Event ID 4625 showed the source IP address as 127.0.0.1 instead of the Kali Linux attacker IP.
-Screenshot:
-4625
 
-IpAddress:
-127.0.0.1
+4. Initial Problem
+During the initial attack simulation, Hydra failed to generate the expected network authentication events. Windows Event ID 4625 showed the source IP address as 127.0.0.1 instead of the Kali Linux attacker IP.
+
+<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/37af4c24-46b8-4a4f-a659-c93faf6cd70e" />
+
 4. Investigation
-This is where your project becomes different from many others.
-You can write something like:
 Symptoms
 Windows 10 could not resolve lab.local.
 nslookup timed out.
 Windows could not locate the Domain Controller.
 Hydra attack did not produce expected remote authentication events.
-Include screenshots like:
-nslookup lab.local
+
+<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/ef138669-ab80-4f13-b6c5-5441cd9a6a23" />
+
 
 DNS request timed out.
 Root Cause
-Explain what you found.
-Example:
 Investigation revealed that the Domain Controller networking had become inconsistent. The Active Directory server was using a different Host-Only IP address than expected, while the Windows 10 client was still configured to query the previous DNS server.
-You can even include a table.
+
 Component	Before
 Windows 10 DNS	192.168.56.10
 Domain Controller	192.168.56.106
 Result	DNS timeout
+
 5. Corrective Actions
-Explain the fixes.
-Example:
 Verified VirtualBox adapters.
 Confirmed Host-Only network configuration.
 Updated Windows 10 DNS server.
 Verified Domain Controller registration.
 Tested DNS resolution.
 Validated Active Directory communication.
-Include screenshots of:
-nslookup lab.local
-working correctly.
+
+<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/e6c2e829-f3f1-4985-99d5-4e3e2d356d01" />
+
+
+<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/3f0dab75-b751-4603-a903-4da2dc206cb2" />
+
 6. Validation
-Show the commands.
-ping 192.168.56.106
+
+<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/1377e3e9-e8a9-43ea-a87c-3082426ea116" />
+
 Success.
-ping lab.local
+
+<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/082d620f-a903-45ae-9658-d94e3377ba78" />
+
 Success.
-nltest /dsgetdc:lab.local
+
+<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/02f5fe47-c27a-4a12-9d2c-f8c48d19521d" />
+
 Success.
 This proves Active Directory was functioning again.
 
