@@ -28,7 +28,9 @@ Deep inspection of the raw EventData fields revealed that the authentication att
 PROJECT TITLE
 
 Active Directory Password Spraying Investigation with Wazuh: Troubleshooting DNS Before Detection
-1. Lab Environment
+
+1. LAB ENVIRONMENT
+   
 Attacker:
 - Kali Linux
 - IP: 192.168.56.109
@@ -46,17 +48,17 @@ SIEM:
 - Wazuh
 
 
-2. Objective
+2. OBJECTIVE
 
 Simulate a password spraying attack against an Active Directory Domain Controller using Hydra, investigate failed authentication events in Windows Event Logs and Wazuh, and document the troubleshooting process required to restore proper Active Directory communication before attack simulation.
 
-4. Initial Problem
+3. INITIAL PROBLEM 
    
 During the initial attack simulation, Hydra failed to generate the expected network authentication events. Windows Event ID 4625 showed the source IP address as 127.0.0.1 instead of the Kali Linux attacker IP.
 
 <img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/37af4c24-46b8-4a4f-a659-c93faf6cd70e" />
 
-4. Investigation Symptoms 
+4. INVESTIGATION SYMPTOMS 
 
 Windows 10 could not resolve lab.local.
 nslookup timed out.
@@ -79,7 +81,7 @@ Domain Controller	192.168.56.106
 
 Result	DNS timeout
 
-5. Corrective Actions
+5. CORRECTIVE ACTIONS 
 
 Verified VirtualBox adapters.
 Confirmed Host-Only network configuration.
@@ -93,7 +95,7 @@ Validated Active Directory communication.
 
 <img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/3f0dab75-b751-4603-a903-4da2dc206cb2" />
 
-6. Validation
+6. VALIDATION 
 
 Success.
 
