@@ -153,7 +153,7 @@ Deep inspection of the raw EventData fields revealed that the authentication att
 
 <img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/ed4bbf01-4716-43c1-977d-3f519f8a35ea" />
 
-Project Title
+PROJECT TITLE 
 Active Directory Password Spraying Investigation with Wazuh: Troubleshooting DNS Before Detection
 1. Lab Environment
 Attacker:
