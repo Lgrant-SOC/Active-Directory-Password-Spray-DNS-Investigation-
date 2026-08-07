@@ -1,131 +1,3 @@
-# SMB Reconnaissance & Authentication Investigation
-
-## 🧾 Overview
-
-This project simulates SMB reconnaissance and authentication attempts within a controlled lab environment. The objective was to detect attacker behavior and correlate endpoint logs with observed network activity.
-
----
-
-## 🎯 Objectives
-
-* Identify SMB reconnaissance activity
-* Analyze authentication attempts using Windows Event Logs
-* Correlate attacker actions with endpoint telemetry
-* Map activity to MITRE ATT&CK techniques
-
----
-
-## 🛠️ Tools Used
-
-* Kali Linux (Attacker)
-* Nmap
-* smbclient
-* Windows 10 (Target)
-* Windows Event Viewer
-* Sysmon 
-* Wazuh SIEM 
-
----
-
-## 🧪 Lab Setup
-
-* Attacker: Kali Linux VM
-* Target: Windows VM
-* Network: VirtualBox internal network
-
----
-
-## 🔍 Investigation
-
-### 1. SMB Reconnaissance (Nmap Scan)
-
-Attacker performed port scanning targeting SMB (port 445):
-
-* Initial state: **filtered**
-* Later state: **open**
-
-This indicates potential changes in firewall behavior or service exposure.
-
----<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/4b9ae45c-5676-4e7b-bddd-c21b84b234c9" />
-
-
-### 2. SMB Enumeration Attempt
-
-Command used:
-
-```
-smbclient -L //192.168.56.102 -N
-```
-
-Result:
-
-```
-NT_STATUS_ACCESS_DENIED
-```
-
-This indicates unauthorized access attempt against SMB shares.
-
----<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/ca4e1fb1-59d7-4385-88d9-49d2811e7de5" />
-
-
-### 3. Authentication Log Analysis (Windows)
-
-Observed key security events:
-
-* **Event ID 4625** → Failed logon attempts
-* **Event ID 4624** → Successful logon
-* **Event ID 4634** → Logoff activity
-* **Event ID 5379** → Credential access (Credential Manager)
-
----<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/ecbcae93-e021-436b-988a-b540ded9d556" />
-
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/9b66e7c2-cb9a-4a29-8f2f-a7d4103e8c12" />
-
-
-
-
-
-
-### 4. Log Correlation
-
-* Multiple failed logons (4625) suggest brute-force behavior
-* Successful logon (4624) following failures may indicate credential compromise
-* Credential access (5379) suggests possible post-authentication activity
-
----
-
-## 🚨 Findings
-
-* SMB reconnaissance detected via Nmap scan
-* Unauthorized SMB enumeration attempt identified
-* Repeated failed authentication attempts observed
-* Credential-related activity detected post-authentication
-
----
-
-## 🧬 MITRE ATT&CK Mapping
-
-* **T1046** – Network Service Discovery
-* **T1078** – Valid Accounts
-* **T1110** – Brute Force
-* **T1555** – Credentials from Password Stores
-
----
-
-## 📌 Indicators of Compromise (IOCs)
-
-* Source IP: 192.168.56.X (attacker machine)
-* Multiple failed logon attempts (Event ID 4625)
-* SMB access attempts with denied authentication
-* Credential Manager access event (5379)
-
----
-
-
-
-
-
-
 ## 🎯 Active Directory Authentication Investigation
 
 ### 📋 Overview
@@ -173,27 +45,19 @@ Client:
 SIEM:
 - Wazuh
 
-### Lab Network Diagram
-
-```text
-               +----------------------------------------+
-
-               |        Virtual Network (Switch)        |
-```
-
----
-
 
 2. Objective
+
 Simulate a password spraying attack against an Active Directory Domain Controller using Hydra, investigate failed authentication events in Windows Event Logs and Wazuh, and document the troubleshooting process required to restore proper Active Directory communication before attack simulation.
 
 4. Initial Problem
+   
 During the initial attack simulation, Hydra failed to generate the expected network authentication events. Windows Event ID 4625 showed the source IP address as 127.0.0.1 instead of the Kali Linux attacker IP.
 
 <img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/37af4c24-46b8-4a4f-a659-c93faf6cd70e" />
 
-4. Investigation
-Symptoms
+4. Investigation Symptoms 
+
 Windows 10 could not resolve lab.local.
 nslookup timed out.
 Windows could not locate the Domain Controller.
@@ -204,14 +68,17 @@ Hydra attack did not produce expected remote authentication events.
 
 DNS request timed out.
 Root Cause
+
 Investigation revealed that the Domain Controller networking had become inconsistent. The Active Directory server was using a different Host-Only IP address than expected, while the Windows 10 client was still configured to query the previous DNS server.
 
 Component	Before
+
 Windows 10 DNS	192.168.56.10
 Domain Controller	192.168.56.106
 Result	DNS timeout
 
 5. Corrective Actions
+
 Verified VirtualBox adapters.
 Confirmed Host-Only network configuration.
 Updated Windows 10 DNS server.
