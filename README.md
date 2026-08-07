@@ -74,7 +74,9 @@ Investigation revealed that the Domain Controller networking had become inconsis
 Component	Before
 
 Windows 10 DNS	192.168.56.10
+
 Domain Controller	192.168.56.106
+
 Result	DNS timeout
 
 5. Corrective Actions
@@ -92,12 +94,6 @@ Validated Active Directory communication.
 <img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/3f0dab75-b751-4603-a903-4da2dc206cb2" />
 
 6. Validation
-
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/1377e3e9-e8a9-43ea-a87c-3082426ea116" />
-
-Success.
-
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/082d620f-a903-45ae-9658-d94e3377ba78" />
 
 Success.
 
