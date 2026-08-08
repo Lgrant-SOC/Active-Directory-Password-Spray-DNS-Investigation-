@@ -95,12 +95,19 @@ The Domain Controller's Host-Only network IP changed unexpectedly, leaving the W
 
 ---
 ### 📸 Attack Re-Execution Telemetry
-<img width="3024" height="4032" src="YOUR_NEW_HYDRA_RDP_IMAGE_LINK_HERE">
+
+<img width="1763" height="1248" alt="image" src="https://github.com/user-attachments/assets/2f2e321a-784b-4e5a-86ed-dfd6290e0065" />
+
 
 ---
 
 ### 📸 Target Security Log Influx
-<img width="3024" height="4032" src="YOUR_LOG_INFLUX_IMAGE_LINK_HERE">
+
+<img width="2580" height="1558" alt="image" src="https://github.com/user-attachments/assets/c9f0c2b2-7227-4396-9455-7d7d75e09bac" />
+
+<img width="1872" height="1221" alt="image" src="https://github.com/user-attachments/assets/7dc21dba-58de-4420-80c7-7a64e8baefc3" />
+
+
 
 ---
 
@@ -108,7 +115,9 @@ The Domain Controller's Host-Only network IP changed unexpectedly, leaving the W
 Deep forensic analysis of the resulting Event ID 4625 properties proved that the telemetry gap was completely closed. The raw XML logging sub-structure accurately tracked the incoming brute-force footprint back to the remote attacker.
 
 ### 📸 Active Attack Forensic Telemetry
-<img width="3024" height="4032" src="YOUR_XML_IP_IMAGE_LINK_HERE">
+
+<img width="2073" height="1528" alt="image" src="https://github.com/user-attachments/assets/03cce1b4-53f7-4a04-8934-b18bf8d1f732" />
+
 
 ---
 
