@@ -92,6 +92,21 @@ The Domain Controller's Host-Only network IP changed unexpectedly, leaving the W
 
 <img width="2836" height="1839" alt="image" src="https://github.com/user-attachments/assets/38da425f-8a10-4bcd-ab84-6cf463b1c54a" />
 
+## 🔍 Initial Forensic Baseline Analysis
+...
+### 📸 Security Log Forensic Artifacts
+
+<img width="2400" height="1664" alt="image" src="https://github.com/user-attachments/assets/d683edc9-d1ac-4ef0-9155-f3a5ff6e2498" />
+
+## ⚔️ Attack Execution & High-Fidelity Detection (The Success Phase)
+...
+### 📸 Active Attack Forensic Telemetry
+
+<img width="2073" height="1528" alt="image" src="https://github.com/user-attachments/assets/4f8064fe-b854-4735-a9d9-62ab41141bb6" />
+
+
+
+
 
 
 
