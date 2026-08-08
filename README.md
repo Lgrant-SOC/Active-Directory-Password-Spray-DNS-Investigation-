@@ -35,11 +35,14 @@ During attack simulation, Hydra failed to generate remote network authentication
 <img width="3024" height="2098" alt="image" src="https://github.com/user-attachments/assets/f5e62989-1872-4e46-ab08-7e1b5569bc31" />
 
 
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/70e0ec08-ee4e-49ce-8e08-a6b7bf2ff15d" />
- 
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/a05f2ea6-2e38-4d43-8da1-b2868a8658c2" />
+<img width="1899" height="1359" alt="image" src="https://github.com/user-attachments/assets/9ed7b7c6-f9ec-486b-802e-78a9b86c69d7" />
 
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/ed5155a7-9a47-4987-b563-f4534f299377" />
+ 
+<img width="2620" height="1635" alt="image" src="https://github.com/user-attachments/assets/e5df4d93-b637-45fb-b19d-a69e5c27ac2f" />
+
+
+<img width="1111" height="937" alt="image" src="https://github.com/user-attachments/assets/825e172f-aeaa-4410-9e4e-bf44a298ef83" />
+
 
 
 
@@ -59,7 +62,8 @@ The Domain Controller's Host-Only network IP changed unexpectedly, leaving the W
 
 ### 📸 Configuration Mismatch Proof
 
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/24082365-d93a-4329-a972-df1b77f31af1" />
+<img width="3024" height="926" alt="image" src="https://github.com/user-attachments/assets/61dde95b-5ce2-4bee-bcc1-845ca0a2904d" />
+
 
 
 ---
