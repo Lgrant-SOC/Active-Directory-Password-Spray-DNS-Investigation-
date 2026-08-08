@@ -30,8 +30,7 @@ During attack simulation, Hydra failed to generate remote network authentication
 * **DNS Failure**: `nslookup lab.local` timed out completely against the configured server.
 * **Tool Connection Error**: Hydra returned `[ERROR] freerdp: The Connection failed` due to this routing mismatch.
 
-```bash
-# <img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/47643f5f-6f2c-454e-a09b-124c6a793ed1" />
+<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/47643f5f-6f2c-454e-a09b-124c6a793ed1" />
 
 
 <img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/9956225d-b8d5-4073-a327-6ffb3aca9a15" />
