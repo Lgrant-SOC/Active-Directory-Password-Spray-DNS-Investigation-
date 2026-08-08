@@ -95,7 +95,7 @@ The Domain Controller's Host-Only network IP changed unexpectedly, leaving the W
 
 ---
 ### 📸 Attack Re-Execution Telemetry
-<img width="3024" height="4032" src="YOUR_ATTACK_IMAGE_LINK_HERE">
+<img width="3024" height="4032" src="YOUR_NEW_HYDRA_RDP_IMAGE_LINK_HERE">
 
 ---
 
@@ -115,6 +115,7 @@ Deep forensic analysis of the resulting Event ID 4625 properties proved that the
 ## ✅ Validation & Conclusion
 * **Status**: Complete Success.
 * **Conclusion**: Remediated the underlying Active Directory DNS routing breakdown, validated system metrics, and verified high-fidelity detection capabilities by capturing the remote Kali Linux node (`192.168.56.109`) in the raw Windows Security logging infrastructure.
+
 
 
 
