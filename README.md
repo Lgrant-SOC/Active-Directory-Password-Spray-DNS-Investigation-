@@ -47,7 +47,7 @@ The Domain Controller's Host-Only network IP changed unexpectedly, leaving the W
 * **Status**: Success. Active Directory communication fully restored.
 
 `<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/0aeeefe2-2953-40cc-aa08-f236176b85ad" />
-[Insert Success/Validation Screenshot Here]`
+[Insert Success/Validation 
 
 
 
