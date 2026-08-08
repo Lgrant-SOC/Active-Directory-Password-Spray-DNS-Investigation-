@@ -59,7 +59,9 @@ The Domain Controller's Host-Only network IP changed unexpectedly, leaving the W
 | **Result** | **DNS Timeout** | **Failed** |
 
 ### 📸 Configuration Mismatch Proof
-`[Insert Side-by-Side Split Screen Server Config vs Client DNS Screenshot Here]`
+
+<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/24082365-d93a-4329-a972-df1b77f31af1" />
+
 
 ---
 
