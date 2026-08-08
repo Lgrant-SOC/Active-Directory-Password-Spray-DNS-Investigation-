@@ -1,89 +1,49 @@
-# 🎯 Active Directory Authentication Investigation
+# 🎯 Active Directory Password Spray & DNS Investigation
 
 ## 📋 Overview
-This project simulates an aggressive authentication brute-force spray against a target Windows workstation within an isolated virtualization subnet. The objective was to successfully execute the credential spray from a Kali Linux node, bypass local host profile restrictions, and manually extract high-fidelity forensic indicators hidden within raw system logging artifacts.
+Simulated an aggressive authentication brute-force spray using Hydra against a Windows workstation. Diagnosed and resolved severe Active Directory communication issues caused by an out-of-sync DNS configuration, restoring full network telemetry.
 
 ---
 
 ## 🎯 Objectives
 * **Execute** a dictionary-based password spray over port 445 (SMB) using Hydra.
-* **Programmatically modify** host network categories from Public to Private using administrative PowerShell.
-* **Filter and isolate** host authentication trails out of 13,000+ background operating system events.
-* **Extract and verify** raw XML loopback metadata from Windows Event ID 4625.
+* **Isolate** authentications out of 13,000+ background system events using Event Viewer.
+* **Verify** raw XML loopback metadata from Windows Event ID 4625.
 
 ---
 
-## 🔍 Forensic Analysis & Local Loopback Isolation
-Upon inspecting the target workstation's Windows Security Log (eventvwr.msc), over 13,000 background events were filtered down to isolate Event ID 4625 (An account failed to log on).
+## 🚨 The Problem & Symptoms
+During attack simulation, Hydra failed to generate remote network authentication events. Windows Event ID 4625 incorrectly flagged the source IP as `127.0.0.1` (local loopback).
+* **DNS Failure**: `nslookup lab.local` timed out.
+* **Connectivity Failure**: Windows 10 could not locate the Domain Controller.
 
-Deep inspection of the raw EventData fields revealed that the authentication attempt was associated with the process `C:\Windows\System32\svchost.exe`. The event also recorded the source IpAddress as `127.0.0.1` (loopback), indicating the failed authentication originated locally on the Windows system rather than from a remote host. This finding explained why the event did not represent the intended password spraying simulation from the Kali Linux attacker.
-
-`[image]` `[image]` `[image]`
-
----
-
-# 🎯 Active Directory Password Spraying Investigation with Wazuh
-
-## 📋 Lab Environment
-* **Attacker**: Kali Linux (IP: `192.168.56.109`)
-* **Target**: Windows Server 2022 (Active Directory Domain Controller / Final IP: `192.168.56.106`)
-* **Client**: Windows 10 (IP: `192.168.56.110`)
-* **SIEM**: Wazuh
+`[Insert nslookup Screenshot Here]`
 
 ---
 
-## 🎯 Project Objectives
-* **Simulate** a password spraying attack against an Active Directory Domain Controller using Hydra.
-* **Investigate** failed authentication events in Windows Event Logs and Wazuh.
-* **Document** the troubleshooting process required to restore proper Active Directory communication before attack simulation.
-
----
-
-## 🚨 Initial Problem
-During the initial attack simulation, Hydra failed to generate the expected network authentication events. Windows Event ID 4625 incorrectly showed the source IP address as `127.0.0.1` instead of the Kali Linux attacker IP.
-
-`[image]`
-
----
-
-## 🔍 Investigation Symptoms
-* **DNS Resolution Failure**: Windows 10 could not resolve `lab.local` and `nslookup` timed out.
-* **Domain Connectivity Failure**: Windows could not locate the Domain Controller.
-* **Telemetry Gap**: Hydra attack did not produce the expected remote authentication events.
-
-`[image]`
-
----
-
-## 💡 Root Cause Analysis
-Investigation revealed that the Domain Controller networking had become inconsistent. The Active Directory server was using a different Host-Only IP address than expected, while the Windows 10 client was still configured to query the previous DNS server.
+## 💡 Root Cause
+The Domain Controller's Host-Only network IP changed unexpectedly, leaving the Windows 10 client configured to query a non-existent, stale DNS server.
 
 | Component | Configuration | Status |
 | :--- | :--- | :--- |
-| **Windows 10 DNS** | `192.168.56.10` | Incorrect |
+| **Windows 10 DNS** | `192.168.56.10` | Stale / Broken |
 | **Domain Controller** | `192.168.56.106` | Active |
-| **Result** | **DNS timeout** | **Failed** |
+| **Result** | **DNS Timeout** | **Failed** |
 
 ---
 
-## 🛠️ Corrective Actions
-* **Verified** VirtualBox adapters.
-* **Confirmed** Host-Only network configuration.
-* **Updated** Windows 10 DNS server.
-* **Verified** Domain Controller registration.
-* **Tested** DNS resolution.
-* **Validated** Active Directory communication.
-
-`[image]` `[image]`
+## 🛠️ Corrective Actions & Resolution
+1. **Updated** Windows 10 client DNS server to match the active Domain Controller IP (`192.168.56.106`).
+2. **Verified** Active Directory Domain Controller registration and network adapters.
+3. **Validated** DNS resolution and restored proper lab communication.
 
 ---
 
 ## ✅ Validation
-* **Status**: Success.
+* **Status**: Success. Active Directory communication fully restored.
 
-`[image]`
-
-* **Conclusion**: Success. This proves Active Directory was functioning again.
+`<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/0aeeefe2-2953-40cc-aa08-f236176b85ad" />
+[Insert Success/Validation Screenshot Here]`
 
 
 
