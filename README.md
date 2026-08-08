@@ -7,7 +7,7 @@ Simulated an aggressive authentication brute-force spray using Hydra against a W
 
 ## 🎯 Objectives
 * **Execute** a dictionary-based password spray over port 445 (SMB) using Hydra.
-* **Isolate** authentications out of 13,000+ background system events using Event Viewer.
+* **Isolate** authentications out of 12,800+ background system events using Event Viewer.
 * **Verify** raw XML loopback metadata from Windows Event ID 4625.
 
 ---
