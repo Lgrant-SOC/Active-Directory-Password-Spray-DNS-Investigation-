@@ -92,17 +92,44 @@ The Domain Controller's Host-Only network IP changed unexpectedly, leaving the W
 
 <img width="2836" height="1839" alt="image" src="https://github.com/user-attachments/assets/38da425f-8a10-4bcd-ab84-6cf463b1c54a" />
 
-## 🔍 Initial Forensic Baseline Analysis
-...
-### 📸 Security Log Forensic Artifacts
 
-<img width="2400" height="1664" alt="image" src="https://github.com/user-attachments/assets/d683edc9-d1ac-4ef0-9155-f3a5ff6e2498" />
+---
 
 ## ⚔️ Attack Execution & High-Fidelity Detection (The Success Phase)
-...
+With network infrastructure restored, the dictionary-based password spray attack was re-executed from the Kali Linux node. The target host successfully processed the remote authentication traffic, generating pristine network security event logs.
+
+
+# Re-executed attack vector targeting SMB after infrastructure remediation
+hydra -l TargetUser -P /usr/share/wordlists/fasttrack.txt smb://192.168.56.102:445/
+```
+
+### 📸 Attack Re-Execution Telemetry
+<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/ea927314-6636-4a77-b654-b2d5ad038592" />
+
+
+---
+
+### 📸 Target Security Log Influx
+<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/511b63c2-fa00-4ce5-8092-8e9b525d69b0" />
+
+<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/d874cd9a-d349-44af-ae9c-c436bdc893e1" />
+
+---
+
+## 🔍 Post-Fix Forensic Analysis
+Deep forensic analysis of the resulting Event ID 4625 properties proved that the telemetry gap was completely closed. The raw XML logging sub-structure accurately tracked the incoming brute-force footprint back to the remote attacker.
+
 ### 📸 Active Attack Forensic Telemetry
 
-<img width="2073" height="1528" alt="image" src="https://github.com/user-attachments/assets/4f8064fe-b854-4735-a9d9-62ab41141bb6" />
+<img width="2073" height="1528" alt="image" src="https://github.com/user-attachments/assets/d86997bc-92d1-4105-8e3f-7d1893d7eafe" />
+
+
+---
+
+## ✅ Validation & Conclusion
+* **Status**: Complete Success.
+* **Conclusion**: Remediated the underlying Active Directory DNS routing breakdown, validated system metrics, and verified high-fidelity detection capabilities by capturing the remote Kali Linux node (`192.168.56.109`) in the raw Windows Security logging infrastructure.
+
 
 
 
