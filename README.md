@@ -94,25 +94,13 @@ The Domain Controller's Host-Only network IP changed unexpectedly, leaving the W
 
 
 ---
-
-## ⚔️ Attack Execution & High-Fidelity Detection (The Success Phase)
-With network infrastructure restored, the dictionary-based password spray attack was re-executed from the Kali Linux node. The target host successfully processed the remote authentication traffic, generating pristine network security event logs.
-
-
-# Re-executed attack vector targeting SMB after infrastructure remediation
-hydra -l TargetUser -P /usr/share/wordlists/fasttrack.txt smb://192.168.56.102:445/
-```
-
 ### 📸 Attack Re-Execution Telemetry
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/ea927314-6636-4a77-b654-b2d5ad038592" />
-
+<img width="3024" height="4032" src="YOUR_ATTACK_IMAGE_LINK_HERE">
 
 ---
 
 ### 📸 Target Security Log Influx
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/511b63c2-fa00-4ce5-8092-8e9b525d69b0" />
-
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/d874cd9a-d349-44af-ae9c-c436bdc893e1" />
+<img width="3024" height="4032" src="YOUR_LOG_INFLUX_IMAGE_LINK_HERE">
 
 ---
 
@@ -120,15 +108,14 @@ hydra -l TargetUser -P /usr/share/wordlists/fasttrack.txt smb://192.168.56.102:4
 Deep forensic analysis of the resulting Event ID 4625 properties proved that the telemetry gap was completely closed. The raw XML logging sub-structure accurately tracked the incoming brute-force footprint back to the remote attacker.
 
 ### 📸 Active Attack Forensic Telemetry
-
-<img width="2073" height="1528" alt="image" src="https://github.com/user-attachments/assets/d86997bc-92d1-4105-8e3f-7d1893d7eafe" />
-
+<img width="3024" height="4032" src="YOUR_XML_IP_IMAGE_LINK_HERE">
 
 ---
 
 ## ✅ Validation & Conclusion
 * **Status**: Complete Success.
 * **Conclusion**: Remediated the underlying Active Directory DNS routing breakdown, validated system metrics, and verified high-fidelity detection capabilities by capturing the remote Kali Linux node (`192.168.56.109`) in the raw Windows Security logging infrastructure.
+
 
 
 
