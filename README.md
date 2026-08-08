@@ -37,7 +37,11 @@ The Domain Controller's Host-Only network IP changed unexpectedly, leaving the W
 2. **Verified** Active Directory Domain Controller registration and network adapters.
 3. **Validated** DNS resolution and restored proper lab communication.
 
----
+---<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/7c1eb16e-3a2a-4b57-8061-f2d7686211df" />
+
+<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/575355d4-5ea5-4a29-9b09-655de8b45739" />
+
+
 
 ## ✅ Validation
 * **Status**: Success. Active Directory communication fully restored.
