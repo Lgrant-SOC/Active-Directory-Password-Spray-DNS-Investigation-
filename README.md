@@ -80,13 +80,18 @@ The Domain Controller's Host-Only network IP changed unexpectedly, leaving the W
 * **Verification Method**: Conducted differential network connectivity testing. The stale configuration target (`192.168.56.10`) remains safely offline, while the newly updated Domain Controller target (`192.168.56.106`) instantly responds with 0% packet loss and active MAC address cache mapping.
 
 ### 📸 Post-Fix Routing & Connectivity Evidence
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/f2297b77-5ff6-4274-8c18-f3379d868211" />
 
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/155f7ca0-4d69-4fef-b906-104aeac32644" />
+<img width="3024" height="1607" alt="image" src="https://github.com/user-attachments/assets/5edd71c1-ca42-4e25-a88c-601e7817f8f5" />
 
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/4227d542-b5fe-43ea-b07f-8b94e14490a6" />
 
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/ef3e6678-3fa2-4888-951b-b9c85c06c84a" />
+<img width="2419" height="1332" alt="image" src="https://github.com/user-attachments/assets/94f0e756-403d-4afc-b130-898c144e21a7" />
+
+
+<img width="2730" height="1496" alt="image" src="https://github.com/user-attachments/assets/4c533a15-2e84-4c70-a086-4e45316f1053" />
+
+
+<img width="2836" height="1839" alt="image" src="https://github.com/user-attachments/assets/38da425f-8a10-4bcd-ab84-6cf463b1c54a" />
+
 
 
 
