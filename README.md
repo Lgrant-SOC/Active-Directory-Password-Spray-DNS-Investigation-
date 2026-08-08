@@ -33,11 +33,7 @@ During attack simulation, Hydra failed to generate remote network authentication
 <img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/47643f5f-6f2c-454e-a09b-124c6a793ed1" />
 
 <img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/70e0ec08-ee4e-49ce-8e08-a6b7bf2ff15d" />
-
-
-
-
-### Network and triage evidence 
+ 
 <img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/a05f2ea6-2e38-4d43-8da1-b2868a8658c2" />
 
 <img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/ed5155a7-9a47-4987-b563-f4534f299377" />
