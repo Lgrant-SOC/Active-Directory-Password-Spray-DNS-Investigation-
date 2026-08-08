@@ -17,10 +17,11 @@ Upon inspecting the target workstation's Windows Security Log (eventvwr.msc), ba
 
 Deep inspection of the raw EventData fields revealed that the authentication attempt was associated with the process `C:\Windows\System32\svchost.exe`. The event recorded the source IpAddress as `127.0.0.1` (loopback), indicating the failed authentication originated locally on the Windows system rather than from a remote host. 
 
-### 📸 Security Log Forensic Artifacts
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/395b84b2-6f96-43a4-90d9-c8bd61abe6e0" />
+<img width="918" height="979" alt="image" src="https://github.com/user-attachments/assets/f9feb8d5-de7b-4231-a8ae-d0fc884a4600" />
 
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/a6613b0f-4689-4d53-a1ff-828a8bd7afa2" />
+
+<img width="918" height="979" alt="image" src="https://github.com/user-attachments/assets/b2d22ea2-9177-43cb-b568-22c0fc20ae9e" />
+
 
 
 ---
