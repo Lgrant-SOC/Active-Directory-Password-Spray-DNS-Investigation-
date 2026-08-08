@@ -20,7 +20,8 @@ Deep inspection of the raw EventData fields revealed that the authentication att
 <img width="918" height="979" alt="image" src="https://github.com/user-attachments/assets/f9feb8d5-de7b-4231-a8ae-d0fc884a4600" />
 
 
-<img width="918" height="979" alt="image" src="https://github.com/user-attachments/assets/b2d22ea2-9177-43cb-b568-22c0fc20ae9e" />
+<img width="2506" height="1433" alt="image" src="https://github.com/user-attachments/assets/bfc063d0-6ad6-4b83-8e3a-8024fa42a2c3" />
+
 
 
 
@@ -31,7 +32,8 @@ During attack simulation, Hydra failed to generate remote network authentication
 * **DNS Failure**: `nslookup lab.local` timed out completely against the configured server.
 * **Tool Connection Error**: Hydra returned `[ERROR] freerdp: The Connection failed` due to this routing mismatch.
 
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/47643f5f-6f2c-454e-a09b-124c6a793ed1" />
+<img width="3024" height="2098" alt="image" src="https://github.com/user-attachments/assets/f5e62989-1872-4e46-ab08-7e1b5569bc31" />
+
 
 <img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/70e0ec08-ee4e-49ce-8e08-a6b7bf2ff15d" />
  
