@@ -27,9 +27,8 @@ The issue was traced to the VirtualBox Ethernet Adapter 1 configuration. After c
 
 **Corrected Source:** `192.168.56.109`
 
-### Evidence — Initial Event 4625
+<img width="2506" height="1433" alt="image" src="https://github.com/user-attachments/assets/409a73b7-e1b2-4f56-80be-81858ff573ce" />
 
-<!-- INSERT INITIAL EVENT 4625 SCREENSHOT HERE -->
 
 ---
 
@@ -55,7 +54,8 @@ Hydra v9.6 was executed from the Kali Linux attacker machine (`192.168.56.109`) 
 
 ### Evidence — Hydra Attack
 
-<!-- INSERT HYDRA SCREENSHOT HERE -->
+<img width="1724" height="1394" alt="image" src="https://github.com/user-attachments/assets/efe821a0-d97d-4bcb-9b00-ebca5abae989" />
+
 
 ---
 
@@ -83,11 +83,13 @@ The `WorkstationName` and `IpAddress` fields provided evidence connecting the fa
 
 ### Evidence — Event ID 4625
 
-<!-- INSERT EVENT 4625 SCREENSHOT HERE -->
+<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/de6cb9e6-f974-42fd-a4d9-b0e3f811d7b2" />
 
-### Evidence — Corrected Event 4625 Raw XML
 
-<!-- INSERT CORRECTED XML SCREENSHOT HERE -->
+### Evidence — Event 4625 Raw XML
+
+<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/98bc2719-f0cc-4d99-9cfa-b6112f737990" />
+
 
 ---
 
@@ -99,7 +101,8 @@ The Wazuh investigation was used to validate that the Windows authentication act
 
 ### Evidence — Wazuh Alert
 
-<!-- INSERT WAZUH SCREENSHOT HERE -->
+<img width="2863" height="3345" alt="image" src="https://github.com/user-attachments/assets/1bace96d-95cc-4417-aefe-2057d5f19a76" />
+
 
 ---
 
