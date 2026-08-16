@@ -1,129 +1,24 @@
-# 🎯 Active Directory Password Spray & DNS Investigation
+Active Directory Password Spray & Wazuh Investigation
+📋 Overview
+Simulated a controlled RDP password-guessing attack using Hydra from Kali Linux (192.168.56.109) against a Windows workstation (192.168.56.106). Investigated the resulting Windows Event ID 4625 authentication failures and validated the activity through Wazuh.
+🎯 Objectives
+Execute a controlled Hydra authentication attack.
+Investigate Windows Event ID 4625 authentication failures.
+Identify the originating attacker IP and workstation.
+Analyze NTLM authentication telemetry.
+Validate the activity in Wazuh.
+⚔️ Hydra Attack
+Hydra v9.6 was executed from the Kali Linux attacker machine (192.168.56.109) against the Windows workstation (192.168.56.106) over RDP/TCP 3389 using the TargetUser account.
+The attack completed with 0 valid passwords found, demonstrating unsuccessful authentication attempts.
+Evidence — Hydra 
+<img width="1724" height="1394" alt="image" src="https://github.com/user-attachments/assets/408f3f07-6e00-4743-ae9e-600781d45965" />
 
-## 📋 Overview
-Simulated an aggressive authentication brute-force spray using Hydra against a Windows workstation. Diagnosed and resolved severe Active Directory communication issues caused by an out-of-sync DNS configuration, restoring full network telemetry.
+🔍 Windows Event Investigation
+Following the authentication attempts, Windows Event Viewer was filtered for Event ID 4625 — An account failed to log on.
+Evidence — Event ID 4625:
+<img width="2874" height="2144" alt="image" src="https://github.com/user-attachments/assets/e802b40f-009f-4592-b366-c80cfe39104b" />
 
----
-
-## 🎯 Objectives
-* **Execute** a dictionary-based password spray over port 445 (SMB) using Hydra.
-* **Isolate** authentications out of 12,800+ background system events using Event Viewer.
-* **Verify** raw XML loopback metadata from Windows Event ID 4625.
-
----
-
-## 🔍 Forensic Analysis & Local Loopback Isolation
-Upon inspecting the target workstation's Windows Security Log (eventvwr.msc), background events were filtered down to isolate Event ID 4625 (An account failed to log on).
-
-Deep inspection of the raw EventData fields revealed that the authentication attempt was associated with the process `C:\Windows\System32\svchost.exe`. The event recorded the source IpAddress as `127.0.0.1` (loopback), indicating the failed authentication originated locally on the Windows system rather than from a remote host. 
-
-<img width="918" height="979" alt="image" src="https://github.com/user-attachments/assets/f9feb8d5-de7b-4231-a8ae-d0fc884a4600" />
-
-
-<img width="2506" height="1433" alt="image" src="https://github.com/user-attachments/assets/bfc063d0-6ad6-4b83-8e3a-8024fa42a2c3" />
-
-
-
-
----
-
-## 🚨 The Problem & Symptoms
-During attack simulation, Hydra failed to generate remote network authentication events. Windows Event ID 4625 incorrectly flagged the source IP as `127.0.0.1` (local loopback) because the target host was isolated from the domain structure.
-* **DNS Failure**: `nslookup lab.local` timed out completely against the configured server.
-* **Tool Connection Error**: Hydra returned `[ERROR] freerdp: The Connection failed` due to this routing mismatch.
-
-<img width="3024" height="2098" alt="image" src="https://github.com/user-attachments/assets/f5e62989-1872-4e46-ab08-7e1b5569bc31" />
-
-
-<img width="1899" height="1359" alt="image" src="https://github.com/user-attachments/assets/9ed7b7c6-f9ec-486b-802e-78a9b86c69d7" />
-
- 
-<img width="2620" height="1635" alt="image" src="https://github.com/user-attachments/assets/e5df4d93-b637-45fb-b19d-a69e5c27ac2f" />
-
-
-<img width="1111" height="937" alt="image" src="https://github.com/user-attachments/assets/825e172f-aeaa-4410-9e4e-bf44a298ef83" />
-
-
-
-
-
-
-
----
-
-## 💡 Root Cause
-The Domain Controller's Host-Only network IP changed unexpectedly, leaving the Windows 10 client configured to query a non-existent, stale DNS server.
-
-| Component | Configuration | Status |
-| :--- | :--- | :--- |
-| **Windows 10 DNS** | `192.168.56.10` | Stale / Broken |
-| **Domain Controller** | `192.168.56.106` | Active |
-| **Result** | **DNS Timeout** | **Failed** |
-
-### 📸 Configuration Mismatch Proof
-
-<img width="3024" height="926" alt="image" src="https://github.com/user-attachments/assets/61dde95b-5ce2-4bee-bcc1-845ca0a2904d" />
-
-
-
----
-
-## 🛠️ Corrective Actions & Resolution
-1. **Updated** Windows 10 client DNS server to match the active Domain Controller IP (`192.168.56.106`).
-2. **Verified** Active Directory Domain Controller registration and network adapters.
-3. **Validated** DNS resolution and restored proper lab communication.
-
----
-
-## ✅ Validation & Verification Metrics
-* **Status**: Success. Active Directory domain communication has been fully restored.
-* **Verification Method**: Conducted differential network connectivity testing. The stale configuration target (`192.168.56.10`) remains safely offline, while the newly updated Domain Controller target (`192.168.56.106`) instantly responds with 0% packet loss and active MAC address cache mapping.
-
-### 📸 Post-Fix Routing & Connectivity Evidence
-
-<img width="3024" height="1607" alt="image" src="https://github.com/user-attachments/assets/5edd71c1-ca42-4e25-a88c-601e7817f8f5" />
-
-
-<img width="2419" height="1332" alt="image" src="https://github.com/user-attachments/assets/94f0e756-403d-4afc-b130-898c144e21a7" />
-
-
-<img width="2730" height="1496" alt="image" src="https://github.com/user-attachments/assets/4c533a15-2e84-4c70-a086-4e45316f1053" />
-
-
-<img width="2836" height="1839" alt="image" src="https://github.com/user-attachments/assets/38da425f-8a10-4bcd-ab84-6cf463b1c54a" />
-
-
----
-### 📸 Attack Re-Execution Telemetry
-
-<img width="1763" height="1248" alt="image" src="https://github.com/user-attachments/assets/2f2e321a-784b-4e5a-86ed-dfd6290e0065" />
-
-
----
-
-### 📸 Target Security Log Influx
-
-<img width="2580" height="1558" alt="image" src="https://github.com/user-attachments/assets/c9f0c2b2-7227-4396-9455-7d7d75e09bac" />
-
-<img width="1872" height="1221" alt="image" src="https://github.com/user-attachments/assets/7dc21dba-58de-4420-80c7-7a64e8baefc3" />
-
-
-
----
-
-## 🔍 Post-Fix Forensic Analysis
-Deep forensic analysis of the resulting Event ID 4625 properties proved that the telemetry gap was completely closed. The raw XML logging sub-structure accurately tracked the incoming brute-force footprint back to the remote attacker.
-
-### 📸 Active Attack Forensic Telemetry
-
-<img width="2073" height="1528" alt="image" src="https://github.com/user-attachments/assets/03cce1b4-53f7-4a04-8934-b18bf8d1f732" />
-
-
----
-
-## ✅ Validation & Conclusion
-* **Status**: Complete Success.
-* **Conclusion**: Remediated the underlying Active Directory DNS routing breakdown, validated system metrics, and verified high-fidelity detection capabilities by capturing the remote Kali Linux node (`192.168.56.109`) in the raw Windows Security logging infrastructure.
+The raw XML provided the following authentication telemetry:
 
 
 
