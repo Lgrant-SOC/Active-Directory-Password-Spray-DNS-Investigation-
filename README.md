@@ -11,14 +11,14 @@ Validate the activity in Wazuh.
 Hydra v9.6 was executed from the Kali Linux attacker machine (192.168.56.109) against the Windows workstation (192.168.56.106) over RDP/TCP 3389 using the TargetUser account.
 The attack completed with 0 valid passwords found, demonstrating unsuccessful authentication attempts.
 Evidence — Hydra 
-<img width="1724" height="1394" alt="image" src="https://github.com/user-attachments/assets/408f3f07-6e00-4743-ae9e-600781d45965" />
+<img width="1724" height="1394" alt="image" src="https://github.com/user-attachments/assets/7cbe2f1b-1144-4a3f-aa69-39ae44da81d2" />
 
 🔍 Windows Event Investigation
 Following the authentication attempts, Windows Event Viewer was filtered for Event ID 4625 — An account failed to log on.
-Evidence — Event ID 4625:
-<img width="2874" height="2144" alt="image" src="https://github.com/user-attachments/assets/e802b40f-009f-4592-b366-c80cfe39104b" />
+Evidence — Event ID 4625
+<img width="2874" height="2144" alt="image" src="https://github.com/user-attachments/assets/24f466b3-cbdd-4616-957a-2760f54bafa7" />
 
-The raw XML provided the following authentication telemetry:
+
 
 
 
