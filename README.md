@@ -138,63 +138,75 @@ Wazuh
 
 **Authentication Attack Simulation • Windows Event Analysis • Event ID 4625 Analysis • Network Troubleshooting • VirtualBox Network Configuration • NTLM Analysis • Source IP Attribution • Wazuh SIEM • Attack-to-Telemetry Correlation**
 
-# Wazuh Custom Rule README
-## Wazuh Brute-Force Detection Using a Custom XML Rule## 📋 Overview
+
+
+
+# Wazuh Custom Rule Detection README
+## Wazuh Brute-Force Detection Using a Custom XML Rule## Overview
 This project demonstrates the creation and testing of a custom Wazuh detection rule designed to identify repeated failed authentication attempts against a Windows Server.
-The detection architecture was deployed and tested in an isolated VirtualBox lab using Kali Linux as the source of the authentication attacks, a Windows Server endpoint as the target, and an Ubuntu instance hosting the Wazuh Manager to handle security monitoring and alert analysis.
-## 🎯 Detection Objective
-The primary objective was to engineer a custom Wazuh XML rule capable of identifying multiple failed authentication attempts occurring within a tight 60-second window.
+The detection was tested in an isolated VirtualBox lab using Kali Linux as the source of the authentication attempts, Windows Server as the target, and Wazuh for security monitoring and alert analysis.
+## Lab Environment
 
-* The target authentication failures generate standard Windows security logs under Event ID 4625.
-* The custom rule correlates these distinct telemetry events to flag active brute-force patterns before generating a high-priority alert.
+* Kali Linux — authentication test source
+* Windows Server — monitored target
+* Ubuntu — Wazuh Manager and Dashboard
+* VirtualBox — isolated lab environment
 
-## 🛠️ Lab Environment & Tools## Core Components
+## Network
 
-* Authentication Test Source: Kali Linux (FreeRDP)
-* Monitored Endpoint Target: Windows Server (Windows Event Viewer)
-* SIEM Architecture: Ubuntu Server (Wazuh Manager & Wazuh Dashboard)
-* Hypervisor Platform: VirtualBox (Isolated Host-Only Network)
-
-## Network Configuration
-
-| System | IP Address | Role / Function |
+| System | IP Address | Role |
 |---|---|---|
-| Wazuh / Ubuntu | 192.168.56.105 | Wazuh Manager & Central SIEM Dashboard |
-| Windows Server | 192.168.56.106 | Monitored Target Endpoint (Wazuh Agent installed) |
-| Kali Linux | 192.168.56.109 | Red Team Authentication Test Source |
+| Wazuh/Ubuntu | 192.168.56.105 | Wazuh Manager |
+| Windows Server | 192.168.56.106 | Monitored endpoint |
+| Kali Linux | 192.168.56.109 | Authentication test source |
 
-## ⚙️ Custom Detection Rule
-The logical correlation engine is defined within the local rule configuration file:
+## Detection Objective
+The objective was to create a custom Wazuh XML rule capable of identifying multiple failed authentication attempts occurring within a 60-second period.
+The authentication failures generate Windows Security Event ID 4625.
+## Custom Wazuh Rule
+The custom XML rule is located in:
 rules/local_rules.xml
-This custom XML block is engineered to parse incoming log payloads from the Windows agent, automatically evaluating frequency thresholds to differentiate baseline administrative mistakes from programmatic brute-force behavior.
-## 🧪 Testing & Validation
-To validate the logic, a sequence of rapid, intentional failed authentication attempts was executed from the Kali Linux attack machine against the target Windows Server utilizing the user account TargetUser.
+The rule is designed to correlate repeated Windows failed-logon events and identify potential brute-force authentication activity.
+## Testing
+The test generated failed authentication attempts from the Kali Linux system against the Windows Server account TargetUser.
+Windows Security Event ID 4625 was generated for the failed authentication attempts.
+Wazuh successfully received the Windows security telemetry from the Windows Server agent.
+During testing, five failed-logon events were observed within approximately three seconds:
 
-   1. Telemetry Generation: The endpoint successfully generated Event ID 4625 (An account failed to log on) for each attempt.
-   2. SIEM Ingestion: The active Wazuh Agent on the server safely transmitted the security events to the manager.
-   3. Threshold Analysis: During the execution window, five distinct failed-logon events were successfully recorded within an approximate three-second burst:
-   * 07:26:32.4
-      * 07:26:33.7
-      * 07:26:33.7
-      * 07:26:33.7
-      * 07:26:35.3
-   4. Rule Matching: Each individual transaction was initially categorized by the SIEM under default Wazuh Rule 60122 (Logon Failure - Unknown...), successfully satisfying the parent prerequisites for our custom threshold rule.
+* 07:26:32.4
+* 07:26:33.7
+* 07:26:33.7
+* 07:26:33.7
+* 07:26:35.3
 
-## 📸 Telemetry Evidence## Windows Event Viewer
-Local confirmation on the target workstation proving Event ID 4625 was processed during the password-guessing window.
-## Wazuh Event Ingestion
-The Wazuh Dashboard validating the real-time collection of the 4625 log stream originating specifically from Agent WIN-E1SKA42GQ7G.
-## Custom Alert Triggered
-Verification that the threshold rule successfully evaluated the rapid event volume and tripped the custom rule alert.
-## 🧠 Key Demonstrations
-Reviewing this repository highlights actionable experience across several security operations domains:
+Each event was associated with Wazuh Rule 60122, Logon Failure - Unknown....
+## Evidence Screenshots
+Below are the three explicit markdown commands where your screenshot files will link. Each line starting with an exclamation mark ! is an independent slot for an image:
 
-* Custom SIEM Engineering: Writing, deploying, and tuning custom XML-based detection mechanisms in Wazuh.
-* Windows Forensic Analysis: Deep assessment of security log structures and Event ID 4625 fields.
-* Identity Monitoring: Tracking authentication failure attributes to pinpoint targeted local or domain accounts.
-* Rule Logic Validation: Designing comprehensive testing strategies to confirm detection triggers while avoiding false negatives.
-* Telemetry Pipeline Auditing: Verifying end-to-end log routing consistency from a remote endpoint agent into a centralized SIEM dashboard.
-* Threat Behavioral Analysis: Modeling and monitoring explicit adversarial behaviors, such as network-based brute-force attacks.
+* Screenshot 1: Windows Event Viewer (Event ID 4625 failed authentication)
+* Screenshot 2: Wazuh Dashboard (Five failed logon events received)
+* Screenshot 3: Custom Alert Trigger (Custom XML rule alert confirmation)
+
+## What This Demonstrates
+This project demonstrates hands-on experience with:
+
+* Creating custom Wazuh XML detection rules
+* Windows Security Event ID 4625 analysis
+* Failed authentication monitoring
+* Wazuh rule testing and validation
+* SIEM event investigation
+* Correlating authentication activity between an endpoint and SIEM
+* Investigating potential brute-force authentication behavior
+
+## Tools
+
+* Wazuh
+* Wazuh Dashboard
+* Windows Event Viewer
+* Windows Server
+* Kali Linux
+* FreeRDP
+* VirtualBox
 
 
 
