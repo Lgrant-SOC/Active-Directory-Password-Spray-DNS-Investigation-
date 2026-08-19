@@ -208,61 +208,56 @@ This project demonstrates hands-on experience with:
 
 # Cybersecurity Lab Portfolio
 
-## Project 3: Sysmon Process Creation Monitoring & Wazuh Detection
+## Project 3: Sysmon Process Monitoring & Wazuh Detection
 
 ### 📋 Overview
 
-Configured Microsoft Sysmon on a Windows Server to capture detailed process creation telemetry through Event ID 1 and integrated the Sysmon Operational event channel with the Wazuh agent for centralized security monitoring.
+Configured Microsoft Sysmon on a Windows Server to capture Process Creation events (Event ID 1) and integrated Sysmon telemetry with Wazuh for centralized monitoring and detection.
 
-A controlled process-creation test was performed using `cmd.exe` with the command `echo Sysmon Event ID 1 test`. Sysmon successfully recorded the activity as Event ID 1, including the process image, command line, process ID, file information, and SHA-256 hash.
-
-The Wazuh agent successfully ingested the Sysmon telemetry and forwarded it to the Wazuh manager. The activity was then identified in Wazuh Threat Hunting, where Wazuh generated detections including Rule 92052 for the Windows command process and Rule 92004 for PowerShell process activity.
+A controlled `cmd.exe` process was executed to validate the configuration. Sysmon captured the activity, and Wazuh successfully ingested and detected the event.
 
 ### 🎯 Objectives
 
-- Install and configure Microsoft Sysmon on Windows Server.
-- Configure Sysmon to monitor process creation activity.
-- Monitor Sysmon Event ID 1 for `cmd.exe` and PowerShell processes.
-- Configure the Wazuh agent to ingest the Sysmon Operational event channel.
-- Generate a controlled process-creation event for validation.
-- Verify Sysmon Event ID 1 in Windows Event Viewer.
-- Verify Sysmon Event ID 1 telemetry in Wazuh Threat Hunting.
-- Analyze process creation telemetry including command line, process image, process ID, and SHA-256 hash.
-- Demonstrate the complete telemetry path from Windows endpoint to Wazuh.
+- Configure Sysmon to monitor process creation.
+- Integrate Sysmon logs with Wazuh.
+- Generate a controlled Process Creation event.
+- Validate Event ID 1 in Windows Event Viewer.
+- Investigate the event in Wazuh Threat Hunting.
 
 ### 🛠️ Lab Environment
 
 | Component | Configuration |
 |---|---|
 | Wazuh Manager/Dashboard | Ubuntu |
-| Windows Endpoint | Windows Server |
-| Wazuh Agent | v4.12.0 |
+| Endpoint | Windows Server |
 | Sysmon | v15.21 |
+| Wazuh Agent | v4.12.0 |
 | Windows Server IP | 192.168.56.106 |
 | Wazuh Manager IP | 192.168.56.105 |
-| Monitoring | Wazuh Threat Hunting |
 | Primary Event | Sysmon Event ID 1 |
-| Wazuh Detection | Rule 92052 |
-
-### 🔧 Sysmon Configuration
-
-The Sysmon configuration was created to monitor process creation involving:
-
-- `cmd.exe`
-- `powershell.exe`
-
-The configuration was stored as:
-
-`sysmon-config.xml`
-
-The relevant Sysmon configuration uses the `ProcessCreate` event filter to capture process creation telemetry.
 
 ### 🧪 Controlled Test
 
-A controlled process creation event was generated on the Windows Server using:
+Executed:
 
 ```powershell
 cmd.exe /c "echo Sysmon Event ID 1 test"
+```
+
+### Evidence — Sysmon Event ID 1
+
+<img width="3024" height="2920" alt="image" src="https://github.com/user-attachments/assets/9443ae6f-b98c-45e9-a21f-890c8a81ca39" />
+
+
+### Evidence — Wazuh Alert Ingestion
+
+<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/ef7aa9c4-b4c0-4126-9254-e7f80f9e9d83" />
+
+
+### Evidence — Wazuh Document Details
+
+<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/3d4548aa-9983-4e5a-8f8d-b0d1a31e659d" />
+
 
 
 ---
