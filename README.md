@@ -1,13 +1,11 @@
-# Active Directory Password Spray & Wazuh Investigation
+# Cybersecurity Lab Portfolio
 
-## 📋 Overview
+## Project 1: Active Directory Password Spray & Wazuh Investigation
 
-Simulated a controlled RDP password-guessing attack from a Kali Linux attacker (`192.168.56.109`) against a Windows workstation (`192.168.56.106`) using Hydra. During validation, the Windows authentication telemetry initially displayed the source as `127.0.0.1` due to the Ethernet Adapter 1 configuration. After correcting the configuration, Event ID 4625 successfully recorded the correct remote authentication source, identifying the Kali attacker as `192.168.56.109`.
+### 📋 Overview
+Simulated a controlled RDP password-guessing attack from a Kali Linux attacker (192.168.56.109) against a Windows workstation (192.168.56.106) using Hydra. During validation, the Windows authentication telemetry initially displayed the source as 127.0.0.1 due to the Ethernet Adapter 1 configuration. After correcting the configuration, Event ID 4625 successfully recorded the correct remote authentication source, identifying the Kali attacker as 192.168.56.109.
 
----
-
-## 🎯 Objectives
-
+### 🎯 Objectives
 * Execute a controlled Hydra authentication attack against RDP.
 * Investigate Windows Event ID 4625 authentication failures.
 * Troubleshoot the initial network configuration issue.
@@ -15,61 +13,48 @@ Simulated a controlled RDP password-guessing attack from a Kali Linux attacker (
 * Analyze NTLM authentication data.
 * Validate the activity through Wazuh.
 
----
-
-## 🔧 Network Configuration Troubleshooting
-
-During the initial validation, Event ID 4625 recorded the authentication source as `127.0.0.1`.
+### 🔧 Network Configuration Troubleshooting
+During the initial validation, Event ID 4625 recorded the authentication source as 127.0.0.1.
 
 The issue was traced to the VirtualBox Ethernet Adapter 1 configuration. After correcting the adapter configuration, the Windows security telemetry accurately reflected the remote authentication source.
 
-**Initial Source:** `127.0.0.1`
+Initial Source: 127.0.0.1
 
-**Corrected Source:** `192.168.56.109`
+Corrected Source: 192.168.56.109
 
-<img width="2506" height="1433" alt="image" src="https://github.com/user-attachments/assets/409a73b7-e1b2-4f56-80be-81858ff573ce" />
-
-
----
-
-## ⚔️ Hydra Attack
-
-Hydra v9.6 was executed from the Kali Linux attacker machine (`192.168.56.109`) against the Windows workstation (`192.168.56.106`) over RDP/TCP 3389 using the `TargetUser` account.
-
-**Attack Result:** `0 valid password found`
-
-### Attack Details
-
-| Item        | Details                  |
-| ----------- | ------------------------ |
-| Attacker    | Kali Linux               |
-| Attacker IP | `192.168.56.109`         |
-| Target      | Windows Workstation      |
-| Target IP   | `192.168.56.106`         |
-| Protocol    | RDP                      |
-| Port        | `3389`                   |
-| Account     | `TargetUser`             |
-| Tool        | Hydra v9.6               |
-| Result      | `0 valid password found` |
-
-### Evidence — Hydra Attack
-
-<img width="1724" height="1394" alt="image" src="https://github.com/user-attachments/assets/efe821a0-d97d-4bcb-9b00-ebca5abae989" />
+<img width="3024" height="2809" alt="image" src="https://github.com/user-attachments/assets/9307bc3a-1ba9-4c86-a7f1-0b5e01adbccf" />
 
 
----
+### ⚔️ Hydra Attack
+Hydra v9.6 was executed from the Kali Linux attacker machine (192.168.56.109) against the Windows workstation (192.168.56.106) over RDP/TCP 3389 using the TargetUser account.
 
-## 🔍 Windows Event Investigation
+Attack Result: 0 valid password found
 
+#### Attack Details
+Item	Details
+Attacker	Kali Linux
+Attacker IP	192.168.56.109
+Target	Windows Workstation
+Target IP	192.168.56.106
+Protocol	RDP
+Port	3389
+Account	TargetUser
+Tool	Hydra v9.6
+Result	0 valid password found
+
+#### Evidence — Hydra Attack
+<img width="1169" height="846" alt="image" src="https://github.com/user-attachments/assets/7e9ab8b9-9e01-4030-bb2f-99e0d411b29b" />
+
+
+### 🔍 Windows Event Investigation
 Following the authentication attempts, Windows Event Viewer was used to investigate the resulting authentication failures.
 
-**Event ID:** `4625 — An account failed to log on`
+Event ID: 4625 — An account failed to log on
 
-**Result:** `Audit Failure`
+Result: Audit Failure
 
 The corrected Event ID 4625 provided the following authentication telemetry:
 
-```text
 Event ID:                4625
 Logon Type:              3
 Logon Process:           NtLmSsp
@@ -77,38 +62,27 @@ Authentication Package:  NTLM
 Workstation Name:        kali-attacker
 Source IP:               192.168.56.109
 Result:                  Audit Failure
-```
 
-The `WorkstationName` and `IpAddress` fields provided evidence connecting the failed authentication event to the Kali attacker machine.
+The WorkstationName and IpAddress fields provided evidence connecting the failed authentication event to the Kali attacker machine.
 
-### Evidence — Event ID 4625
-
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/de6cb9e6-f974-42fd-a4d9-b0e3f811d7b2" />
+#### Evidence — Event ID 4625
+<img width="1168" height="1178" alt="image" src="https://github.com/user-attachments/assets/62bcc641-2285-49cf-8366-681052c272dc" />
 
 
-### Evidence — Event 4625 Raw XML
+#### Evidence — Event 4625 Raw XML
+<img width="1169" height="1113" alt="image" src="https://github.com/user-attachments/assets/3f12bbbe-6a04-4336-ba9a-f879b95e0e06" />
 
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/98bc2719-f0cc-4d99-9cfa-b6112f737990" />
 
-
----
-
-## 🛡️ Wazuh Detection
-
+### 🛡️ Wazuh Detection
 The Windows security telemetry was collected by the Wazuh agent and analyzed by the Wazuh manager.
 
 The Wazuh investigation was used to validate that the Windows authentication activity was successfully collected and processed by the SIEM.
 
-### Evidence — Wazuh Alert
+#### Evidence — Wazuh Alert
+<img width="1169" height="1186" alt="image" src="https://github.com/user-attachments/assets/4d59d44f-dd8e-4b96-a7b4-eafb73a8ebd9" />
 
-<img width="2863" height="3345" alt="image" src="https://github.com/user-attachments/assets/1bace96d-95cc-4417-aefe-2057d5f19a76" />
 
-
----
-
-## 🔗 Investigation Flow
-
-```text
+### 🔗 Investigation Flow
 Kali Linux
 192.168.56.109
       ↓
@@ -124,35 +98,28 @@ Event ID 4625
 Source: 192.168.56.109
       ↓
 Wazuh
-```
 
----
+### 🛠️ Tools
+Kali Linux • Hydra v9.6 • Windows • Active Directory • RDP • Windows Event Viewer • Wazuh • VirtualBox
 
-## 🛠️ Tools
-
-**Kali Linux • Hydra v9.6 • Windows • Active Directory • RDP • Windows Event Viewer • Wazuh • VirtualBox**
-
----
-
-## 🧠 Skills Demonstrated
-
-**Authentication Attack Simulation • Windows Event Analysis • Event ID 4625 Analysis • Network Troubleshooting • VirtualBox Network Configuration • NTLM Analysis • Source IP Attribution • Wazuh SIEM • Attack-to-Telemetry Correlation**
+### 🧠 Skills Demonstrated
+Authentication Attack Simulation • Windows Event Analysis • Event ID 4625 Analysis • Network Troubleshooting • VirtualBox Network Configuration • NTLM Analysis • Source IP Attribution • Wazuh SIEM • Attack-to-Telemetry Correlation
 
 
+## Project 2: Wazuh Brute-Force Detection Using a Custom XML Rule
 
-
-# Wazuh Custom Rule Detection README
-## Wazuh Brute-Force Detection Using a Custom XML Rule## Overview
+### Overview
 This project demonstrates the creation and testing of a custom Wazuh detection rule designed to identify repeated failed authentication attempts against a Windows Server.
+
 The detection was tested in an isolated VirtualBox lab using Kali Linux as the source of the authentication attempts, Windows Server as the target, and Wazuh for security monitoring and alert analysis.
-## Lab Environment
 
-* Kali Linux — authentication test source
-* Windows Server — monitored target
-* Ubuntu — Wazuh Manager and Dashboard
-* VirtualBox — isolated lab environment
+### Lab Environment
+- Kali Linux — authentication test source
+- Windows Server — monitored target
+- Ubuntu — Wazuh Manager and Dashboard
+- VirtualBox — isolated lab environment
 
-## Network
+### Network
 
 | System | IP Address | Role |
 |---|---|---|
@@ -160,53 +127,68 @@ The detection was tested in an isolated VirtualBox lab using Kali Linux as the s
 | Windows Server | 192.168.56.106 | Monitored endpoint |
 | Kali Linux | 192.168.56.109 | Authentication test source |
 
-## Detection Objective
+### Detection Objective
 The objective was to create a custom Wazuh XML rule capable of identifying multiple failed authentication attempts occurring within a 60-second period.
+
 The authentication failures generate Windows Security Event ID 4625.
-## Custom Wazuh Rule
+
+### Custom Wazuh Rule
 The custom XML rule is located in:
-rules/local_rules.xml
+
+`rules/local_rules.xml`
+
 The rule is designed to correlate repeated Windows failed-logon events and identify potential brute-force authentication activity.
-## Testing
-The test generated failed authentication attempts from the Kali Linux system against the Windows Server account TargetUser.
+
+### Testing
+The test generated failed authentication attempts from the Kali Linux system against the Windows Server account `TargetUser`.
+
 Windows Security Event ID 4625 was generated for the failed authentication attempts.
+
 Wazuh successfully received the Windows security telemetry from the Windows Server agent.
+
 During testing, five failed-logon events were observed within approximately three seconds:
 
-* 07:26:32.4
-* 07:26:33.7
-* 07:26:33.7
-* 07:26:33.7
-* 07:26:35.3
+- 07:26:32.4
+- 07:26:33.7
+- 07:26:33.7
+- 07:26:33.7
+- 07:26:35.3
 
-Each event was associated with Wazuh Rule 60122, Logon Failure - Unknown....
-## Evidence Screenshots
-Below are the three explicit markdown commands where your screenshot files will link. Each line starting with an exclamation mark ! is an independent slot for an image:
+Each event was associated with Wazuh Rule 60122, `Logon Failure - Unknown...`.
 
-* Screenshot 1: Windows Event Viewer (Event ID 4625 failed authentication)
-* Screenshot 2: Wazuh Dashboard (Five failed logon events received)
-* Screenshot 3: Custom Alert Trigger (Custom XML rule alert confirmation)
+### Evidence Screenshots
+* **Screenshot 1: Hydra Terminal Authentication Attack**
+<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/75c31bde-e117-4535-969e-fc48ed278c38" />
 
-## What This Demonstrates
+
+* **Screenshot 2: Wazuh Threat Hunting Dashboard Event Ingestion**
+<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/4187aafb-34d0-43d8-bfa9-3b9ae01a3daa" />
+
+
+* **Screenshot 3: Wazuh Document Details Forensic Event Data**
+<img width="3024" height="2809" alt="image" src="https://github.com/user-attachments/assets/9d562880-dd2d-4e26-b4dd-379a626cb582" />
+
+
+### What This Demonstrates
 This project demonstrates hands-on experience with:
+- Creating custom Wazuh XML detection rules
+- Windows Security Event ID 4625 analysis
+- Failed authentication monitoring
+- Wazuh rule testing and validation
+- SIEM event investigation
+- Correlating authentication activity between an endpoint and SIEM
+- Investigating potential brute-force authentication behavior
 
-* Creating custom Wazuh XML detection rules
-* Windows Security Event ID 4625 analysis
-* Failed authentication monitoring
-* Wazuh rule testing and validation
-* SIEM event investigation
-* Correlating authentication activity between an endpoint and SIEM
-* Investigating potential brute-force authentication behavior
+### Tools
+- Wazuh
+- Wazuh Dashboard
+- Windows Event Viewer
+- Windows Server
+- Kali Linux
+- FreeRDP
+- VirtualBox
 
-## Tools
 
-* Wazuh
-* Wazuh Dashboard
-* Windows Event Viewer
-* Windows Server
-* Kali Linux
-* FreeRDP
-* VirtualBox
 
 
 
