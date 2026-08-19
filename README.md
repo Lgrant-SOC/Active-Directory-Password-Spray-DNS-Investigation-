@@ -206,7 +206,63 @@ This project demonstrates hands-on experience with:
 - VirtualBox
 
 
+# Cybersecurity Lab Portfolio
 
+## Project 3: Sysmon Process Creation Monitoring & Wazuh Detection
+
+### 📋 Overview
+
+Configured Microsoft Sysmon on a Windows Server to capture detailed process creation telemetry through Event ID 1 and integrated the Sysmon Operational event channel with the Wazuh agent for centralized security monitoring.
+
+A controlled process-creation test was performed using `cmd.exe` with the command `echo Sysmon Event ID 1 test`. Sysmon successfully recorded the activity as Event ID 1, including the process image, command line, process ID, file information, and SHA-256 hash.
+
+The Wazuh agent successfully ingested the Sysmon telemetry and forwarded it to the Wazuh manager. The activity was then identified in Wazuh Threat Hunting, where Wazuh generated detections including Rule 92052 for the Windows command process and Rule 92004 for PowerShell process activity.
+
+### 🎯 Objectives
+
+- Install and configure Microsoft Sysmon on Windows Server.
+- Configure Sysmon to monitor process creation activity.
+- Monitor Sysmon Event ID 1 for `cmd.exe` and PowerShell processes.
+- Configure the Wazuh agent to ingest the Sysmon Operational event channel.
+- Generate a controlled process-creation event for validation.
+- Verify Sysmon Event ID 1 in Windows Event Viewer.
+- Verify Sysmon Event ID 1 telemetry in Wazuh Threat Hunting.
+- Analyze process creation telemetry including command line, process image, process ID, and SHA-256 hash.
+- Demonstrate the complete telemetry path from Windows endpoint to Wazuh.
+
+### 🛠️ Lab Environment
+
+| Component | Configuration |
+|---|---|
+| Wazuh Manager/Dashboard | Ubuntu |
+| Windows Endpoint | Windows Server |
+| Wazuh Agent | v4.12.0 |
+| Sysmon | v15.21 |
+| Windows Server IP | 192.168.56.106 |
+| Wazuh Manager IP | 192.168.56.105 |
+| Monitoring | Wazuh Threat Hunting |
+| Primary Event | Sysmon Event ID 1 |
+| Wazuh Detection | Rule 92052 |
+
+### 🔧 Sysmon Configuration
+
+The Sysmon configuration was created to monitor process creation involving:
+
+- `cmd.exe`
+- `powershell.exe`
+
+The configuration was stored as:
+
+`sysmon-config.xml`
+
+The relevant Sysmon configuration uses the `ProcessCreate` event filter to capture process creation telemetry.
+
+### 🧪 Controlled Test
+
+A controlled process creation event was generated on the Windows Server using:
+
+```powershell
+cmd.exe /c "echo Sysmon Event ID 1 test"
 
 
 ---
