@@ -139,6 +139,16 @@ The custom XML rule is located in:
 `rules/local_rules.xml`
 
 The rule is designed to correlate repeated Windows failed-logon events and identify potential brute-force authentication activity.
+<group name="windows, security,">
+  <rule id="100002" level="10" frequency="5" timeframe="60">
+    <if_matched_sid>60122</if_matched_sid>
+    <description>Possible Windows RDP Brute Force Attempt</description>
+    <mitre>
+      <id>T1110</id>
+    </mitre>
+  </rule>
+</group>
+
 
 ### Testing
 The test generated failed authentication attempts from the Kali Linux system against the Windows Server account `TargetUser`.
