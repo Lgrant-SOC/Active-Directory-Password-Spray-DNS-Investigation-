@@ -22,7 +22,8 @@ Initial Source: 127.0.0.1
 
 Corrected Source: 192.168.56.109
 
-<img width="3024" height="2809" alt="image" src="https://github.com/user-attachments/assets/9307bc3a-1ba9-4c86-a7f1-0b5e01adbccf" />
+<img width="1170" height="676" alt="image" src="https://github.com/user-attachments/assets/3acb8efe-cfcc-49ab-8ceb-09f256fdf7c5" />
+
 
 
 ### ⚔️ Hydra Attack
@@ -158,15 +159,18 @@ Each event was associated with Wazuh Rule 60122, `Logon Failure - Unknown...`.
 
 ### Evidence Screenshots
 * **Screenshot 1: Hydra Terminal Authentication Attack**
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/75c31bde-e117-4535-969e-fc48ed278c38" />
+<img width="3024" height="3152" alt="image" src="https://github.com/user-attachments/assets/4e68928a-abc0-4eff-b99d-cac891b33291" />
+
 
 
 * **Screenshot 2: Wazuh Threat Hunting Dashboard Event Ingestion**
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/4187aafb-34d0-43d8-bfa9-3b9ae01a3daa" />
+<img width="2871" height="2686" alt="image" src="https://github.com/user-attachments/assets/e9920814-548a-4929-bd8a-4dc5c4e15616" />
+
 
 
 * **Screenshot 3: Wazuh Document Details Forensic Event Data**
-<img width="3024" height="2809" alt="image" src="https://github.com/user-attachments/assets/9d562880-dd2d-4e26-b4dd-379a626cb582" />
+<img width="2882" height="2809" alt="image" src="https://github.com/user-attachments/assets/c727742e-2293-4032-80ba-414c73590831" />
+
 
 
 ### What This Demonstrates
