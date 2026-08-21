@@ -1,11 +1,11 @@
-Cybersecurity Lab Portfolio
+CYBERSECURITY LAB PORTFOLIO 
 
-Project 1: Active Directory Password Spray & Wazuh Investigation
+PROJECT 1: ACTIVE DIRECTORY AND PASSWORD-SPRAY ALONG WITH WAZUH INVESTIGATION
 
- Overview
+ OVERVIEW
 Simulated a controlled RDP password-guessing attack from a Kali Linux attacker (192.168.56.109) against a Windows workstation (192.168.56.106) using Hydra. During validation, the Windows authentication telemetry initially displayed the source as 127.0.0.1 due to the Ethernet Adapter 1 configuration. After correcting the configuration, Event ID 4625 successfully recorded the correct remote authentication source, identifying the Kali attacker as 192.168.56.109.
 
- Objectives
+ OBJECTIVE 
 * Execute a controlled Hydra authentication attack against RDP.
 * Investigate Windows Event ID 4625 authentication failures.
 * Troubleshoot the initial network configuration issue.
@@ -43,7 +43,7 @@ Account	TargetUser
 Tool	Hydra v9.6
 Result	0 valid password found
 
- Evidence — Hydra Attack
+ EVIDENCE  — Hydra Attack
 <img width="1169" height="846" alt="image" src="https://github.com/user-attachments/assets/7e9ab8b9-9e01-4030-bb2f-99e0d411b29b" />
 
 
@@ -66,10 +66,10 @@ Result:                  Audit Failure
 
 The WorkstationName and IpAddress fields provided evidence connecting the failed authentication event to the Kali attacker machine.
 
-Evidence — Event ID 4625
+EVIDENCE — Event ID 4625
 <img width="1168" height="1178" alt="image" src="https://github.com/user-attachments/assets/62bcc641-2285-49cf-8366-681052c272dc" />
 
- Evidence — Event 4625 Raw XML
+ EVIDENCE — Event 4625 Raw XML
 <img width="1169" height="1113" alt="image" src="https://github.com/user-attachments/assets/3f12bbbe-6a04-4336-ba9a-f879b95e0e06" />
 
 
@@ -78,11 +78,11 @@ The Windows security telemetry was collected by the Wazuh agent and analyzed by 
 
 The Wazuh investigation was used to validate that the Windows authentication activity was successfully collected and processed by the SIEM.
 
- Evidence — Wazuh Alert
+ EVIDENCE  — Wazuh Alert
 <img width="1169" height="1186" alt="image" src="https://github.com/user-attachments/assets/4d59d44f-dd8e-4b96-a7b4-eafb73a8ebd9" />
 
 
- Investigation Flow
+ INVESTIGATION FLOW
 Kali Linux
 192.168.56.109
       ↓
@@ -99,27 +99,27 @@ Source: 192.168.56.109
       ↓
 Wazuh
 
- Tools
+ TOOLS 
 Kali Linux • Hydra v9.6 • Windows • Active Directory • RDP • Windows Event Viewer • Wazuh • VirtualBox
 
- Skills Demonstrated
+ SKILLS DEMONSTRATED 
 Authentication Attack Simulation • Windows Event Analysis • Event ID 4625 Analysis • Network Troubleshooting • VirtualBox Network Configuration • NTLM Analysis • Source IP Attribution • Wazuh SIEM • Attack-to-Telemetry Correlation
 
 
- Project 2: Wazuh Brute-Force Detection Using a Custom XML Rule
+ PROJECT 2:WAZUH BRUTE-FORCE DETECTION USING A CUSTOM XML RULE 
 
- Overview
+ OVERVIEW 
 This project demonstrates the creation and testing of a custom Wazuh detection rule designed to identify repeated failed authentication attempts against a Windows Server.
 
 The detection was tested in an isolated VirtualBox lab using Kali Linux as the source of the authentication attempts, Windows Server as the target, and Wazuh for security monitoring and alert analysis.
 
- Lab Environment
+ LAB ENVIRONMENT 
 - Kali Linux — authentication test source
 - Windows Server — monitored target
 - Ubuntu — Wazuh Manager and Dashboard
 - VirtualBox — isolated lab environment
 
- Network
+ NETWORK 
 
 | System | IP Address | Role |
 |---|---|---|
@@ -127,7 +127,7 @@ The detection was tested in an isolated VirtualBox lab using Kali Linux as the s
 | Windows Server | 192.168.56.106 | Monitored endpoint |
 | Kali Linux | 192.168.56.109 | Authentication test source |
 
- Detection Objective
+ DETECTION OBJECTIVE 
 The objective was to create a custom Wazuh XML rule capable of identifying multiple failed authentication attempts occurring within a 60-second period.
 
 The authentication failures generate Windows Security Event ID 4625.
@@ -152,7 +152,7 @@ The rule is designed to correlate repeated Windows failed-logon events and ident
 
 
 
- Testing
+ TESTING
 The test generated failed authentication attempts from the Kali Linux system against the Windows Server account `TargetUser`.
 
 Windows Security Event ID 4625 was generated for the failed authentication attempts.
@@ -169,7 +169,7 @@ During testing, five failed-logon events were observed within approximately thre
 
 Each event was associated with Wazuh Rule 60122, `Logon Failure - Unknown...`.
 
- Evidence Screenshots
+ EVIDENCE
 * **Screenshot 1: Hydra Terminal Authentication Attack**
 <img width="3024" height="3152" alt="image" src="https://github.com/user-attachments/assets/4e68928a-abc0-4eff-b99d-cac891b33291" />
 
@@ -185,7 +185,7 @@ Each event was associated with Wazuh Rule 60122, `Logon Failure - Unknown...`.
 
 
 
- What This Demonstrates
+ WHAT THIS DEMONSTRATES 
 This project demonstrates hands-on experience with:
 - Creating custom Wazuh XML detection rules
 - Windows Security Event ID 4625 analysis
@@ -195,7 +195,7 @@ This project demonstrates hands-on experience with:
 - Correlating authentication activity between an endpoint and SIEM
 - Investigating potential brute-force authentication behavior
 
- Tools
+ TOOLS 
 - Wazuh
 - Wazuh Dashboard
 - Windows Event Viewer
@@ -205,17 +205,15 @@ This project demonstrates hands-on experience with:
 - VirtualBox
 
 
- Cybersecurity Lab Portfolio
+ PROJECT 3: SYSMON PROCESS MONITORING & WAZUH DETECTION 
 
- Project 3: Sysmon Process Monitoring & Wazuh Detection
-
- Overview
+ OVERVIEW 
 
 Configured Microsoft Sysmon on a Windows Server to capture Process Creation events (Event ID 1) and integrated Sysmon telemetry with Wazuh for centralized monitoring and detection.
 
 A controlled `cmd.exe` process was executed to validate the configuration. Sysmon captured the activity, and Wazuh successfully ingested and detected the event.
 
- Objectives
+ OBJECTIVE 
 
 - Configure Sysmon to monitor process creation.
 - Integrate Sysmon logs with Wazuh.
@@ -223,7 +221,7 @@ A controlled `cmd.exe` process was executed to validate the configuration. Sysmo
 - Validate Event ID 1 in Windows Event Viewer.
 - Investigate the event in Wazuh Threat Hunting.
 
- Lab Environment
+ LAB ENVIRONMENT 
 
 | Component | Configuration |
 |---|---|
@@ -243,32 +241,32 @@ Executed:
 cmd.exe /c "echo Sysmon Event ID 1 test"
 ```
 
- Evidence — Sysmon Event ID 1
+ EVIDENCE — Sysmon Event ID 1
 
 <img width="3024" height="2193" alt="image" src="https://github.com/user-attachments/assets/5f79a5a2-bf23-4e78-8362-ac9b8f2d40a6" />
 
 
 
- Evidence — Wazuh Alert Ingestion
+ EVIDENCE — Wazuh Alert Ingestion
 
 <img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/ef7aa9c4-b4c0-4126-9254-e7f80f9e9d83" />
 
 
- Evidence — Wazuh Document Details
+ EVIDENCE — Wazuh Document Details
 
 <img width="3024" height="1883" alt="image" src="https://github.com/user-attachments/assets/0ebd89cb-c42d-45f0-89ae-1ae45e3598ae" />
 
 
 
-Project 4: Wazuh File Integrity Monitoring & Canary File Detection
+PROJECT 4: WAZUH FILE INTEGRITY MONITORING & CANARY FILE DETECTION 
 
-Overview
+OVERVIEW 
 
 This project demonstrates the use of **Wazuh File Integrity Monitoring (FIM)** to detect unauthorized changes to a monitored Windows file. A canary file was created on the Windows Server and configured for real-time monitoring through the Wazuh agent.
 
 A controlled modification was then made to the canary file to simulate suspicious file activity. Wazuh detected the change and generated an integrity alert containing file and cryptographic hash information.
 
-Objective
+OBJECTIVE 
 
 * Configure Wazuh FIM to monitor a specific Windows directory.
 * Enable real-time monitoring of the monitored directory.
@@ -277,7 +275,7 @@ Objective
 * Verify that Wazuh detects the modification.
 * Capture the resulting Wazuh alert as security evidence.
 
-Lab Environment
+LAB ENVIRONMENT 
 
 | Component           | Configuration                              |
 | ------------------- | ------------------------------------------ |
@@ -301,9 +299,7 @@ New-Item -Path "C:\Canary" -ItemType Directory -Force
 New-Item -Path "C:\Canary\Important-Financial-Record.txt" -ItemType File -Force
 
 
-Evidence 1 — Canary File Creation
-
-Insert Screenshot 1 here
+EVIDENCE 1 — Canary File Creation
 
 <img width="2558" height="2482" alt="image" src="https://github.com/user-attachments/assets/918580f0-c31d-43f9-8163-2fefb117a13a" />
 
@@ -323,7 +319,7 @@ xml
 
 The Wazuh agent was then restarted so the updated configuration could take effect.
 
-Evidence 2 — Real-Time FIM Configuration
+EVIDENCE 2 — Real-Time FIM Configuration
 
 <img width="3024" height="2422" alt="image" src="https://github.com/user-attachments/assets/b8ed87da-b87e-49c4-b0d8-23877a686afc" />
 
@@ -342,9 +338,7 @@ Add-Content -Path 'C:\Canary\Important-Financial-Record.txt' -Value 'Canary real
 
 The command modified the contents of the monitored file, creating a controlled file-integrity event.
 
-Evidence 3 — Canary File Modification
-
-Insert Screenshot 3 here**
+EVIDENCE 3 — Canary File Modification
 
  <img width="3024" height="2237" alt="image" src="https://github.com/user-attachments/assets/aab33ba0-be1d-44a6-8766-9455fe2c82af" />
 
@@ -359,7 +353,7 @@ The Threat Hunting view identified **Rule ID 550**, with the description:
 
 The detailed event identified the monitored file and showed that multiple file attributes changed.
 
-Evidence 4 — Wazuh FIM Alert
+EVIDENCE 4 — Wazuh FIM Alert
 
 <img width="3024" height="3027" alt="image" src="https://github.com/user-attachments/assets/f01102e4-6aea-4e19-acff-27142abf4ba7" />
 
@@ -376,7 +370,7 @@ The alert identified:
 * **Changed attributes:** size, modification time, MD5, SHA1, and SHA256
 * **File size:** changed from 43 bytes to 65 bytes
 
- Results
+ RESULTS
 
 The test successfully demonstrated end-to-end file integrity monitoring using Wazuh.
 
@@ -396,13 +390,13 @@ Rule 550: Integrity Checksum Changed
 
 The Wazuh alert confirmed that the agent detected the file modification in real time and recorded changes to the file's metadata and cryptographic hashes.
 
-Security Significance
+SECURITY SIGNIFICANCE
 
 File Integrity Monitoring can help identify suspicious or unauthorized changes to files on monitored systems. Canary files can also serve as early indicators of potentially malicious activity, such as unauthorized modification or ransomware-related file activity.
 
 In this lab, the modification was intentionally performed and controlled. The purpose was to demonstrate how Wazuh can detect and document file integrity changes.
 
-Key Skills Demonstrated
+KEY SKILLS
 
 * Wazuh File Integrity Monitoring (FIM)
 * Wazuh Agent configuration
