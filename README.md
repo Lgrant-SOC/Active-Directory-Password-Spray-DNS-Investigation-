@@ -261,6 +261,168 @@ cmd.exe /c "echo Sysmon Event ID 1 test"
 
 
 
+Project 4: Wazuh File Integrity Monitoring & Canary File Detection
+
+Overview
+
+This project demonstrates the use of **Wazuh File Integrity Monitoring (FIM)** to detect unauthorized changes to a monitored Windows file. A canary file was created on the Windows Server and configured for real-time monitoring through the Wazuh agent.
+
+A controlled modification was then made to the canary file to simulate suspicious file activity. Wazuh detected the change and generated an integrity alert containing file and cryptographic hash information.
+
+Objective
+
+* Configure Wazuh FIM to monitor a specific Windows directory.
+* Enable real-time monitoring of the monitored directory.
+* Create a canary file to serve as a monitored security indicator.
+* Perform a controlled modification to the file.
+* Verify that Wazuh detects the modification.
+* Capture the resulting Wazuh alert as security evidence.
+
+Lab Environment
+
+| Component           | Configuration                              |
+| ------------------- | ------------------------------------------ |
+| Wazuh Manager       | Ubuntu                                     |
+| Wazuh Dashboard     | Ubuntu                                     |
+| Windows Server      | Wazuh Agent                                |
+| Windows Server IP   | `192.168.56.106`                           |
+| Wazuh Manager IP    | `192.168.56.105`                           |
+| Monitored Directory | `C:\Canary`                                |
+| Monitored File      | `C:\Canary\Important-Financial-Record.txt` |
+
+1. Create the Canary Directory and File
+
+A dedicated `C:\Canary` directory was created on the Windows Server. A file named `Important-Financial-Record.txt` was then created inside the directory.
+
+PowerShell Commands
+
+powershell
+New-Item -Path "C:\Canary" -ItemType Directory -Force
+
+New-Item -Path "C:\Canary\Important-Financial-Record.txt" -ItemType File -Force
+
+
+Evidence 1 — Canary File Creation
+
+Insert Screenshot 1 here
+
+<img width="2558" height="2482" alt="image" src="https://github.com/user-attachments/assets/918580f0-c31d-43f9-8163-2fefb117a13a" />
+
+
+
+This confirms that the monitored directory and canary file were successfully created on the Windows Server.
+
+2. Configure Wazuh Real-Time File Integrity Monitoring
+
+The Windows Wazuh agent configuration was updated to monitor the Canary directory using real-time File Integrity Monitoring.
+
+The following configuration was added inside the `<syscheck>` section of `ossec.conf`:
+
+xml
+<directories realtime="yes">C:\Canary</directories>
+
+
+The Wazuh agent was then restarted so the updated configuration could take effect.
+
+Evidence 2 — Real-Time FIM Configuration
+
+<img width="3024" height="2422" alt="image" src="https://github.com/user-attachments/assets/b8ed87da-b87e-49c4-b0d8-23877a686afc" />
+
+
+This configuration instructs the Wazuh agent to monitor the Canary directory for file integrity changes in real time.
+
+3. Perform a Controlled File Modification
+
+After real-time monitoring was enabled, the canary file was intentionally modified using PowerShell.
+
+PowerShell Command
+
+powershell
+Add-Content -Path 'C:\Canary\Important-Financial-Record.txt' -Value 'Canary realtime test'
+
+
+The command modified the contents of the monitored file, creating a controlled file-integrity event.
+
+Evidence 3 — Canary File Modification
+
+Insert Screenshot 3 here**
+
+ <img width="3024" height="2237" alt="image" src="https://github.com/user-attachments/assets/aab33ba0-be1d-44a6-8766-9455fe2c82af" />
+
+
+4. Verify Wazuh Detection
+
+After the file was modified, the Wazuh Dashboard was used to verify that the event was detected.
+
+The Threat Hunting view identified **Rule ID 550**, with the description:
+
+`Integrity checksum changed.`
+
+The detailed event identified the monitored file and showed that multiple file attributes changed.
+
+Evidence 4 — Wazuh FIM Alert
+
+<img width="3024" height="3027" alt="image" src="https://github.com/user-attachments/assets/f01102e4-6aea-4e19-acff-27142abf4ba7" />
+
+
+The alert identified:
+
+* **File:** `C:\Canary\Important-Financial-Record.txt`
+* **Mode:** `realtime`
+* **Decoder:** `syscheck_integrity_changed`
+* **Rule:** `550`
+* **Agent:** `WIN-E1SKA42GQ7G`
+* **Agent IP:** `192.168.56.106`
+* **Manager:** `brai-VirtualBox`
+* **Changed attributes:** size, modification time, MD5, SHA1, and SHA256
+* **File size:** changed from 43 bytes to 65 bytes
+
+## Results
+
+The test successfully demonstrated end-to-end file integrity monitoring using Wazuh.
+
+The workflow was:
+
+```text
+Create Canary File
+        ↓
+Configure Wazuh Real-Time FIM
+        ↓
+Modify Canary File
+        ↓
+Wazuh Detects Change
+        ↓
+Rule 550: Integrity Checksum Changed
+```
+
+The Wazuh alert confirmed that the agent detected the file modification in real time and recorded changes to the file's metadata and cryptographic hashes.
+
+Security Significance
+
+File Integrity Monitoring can help identify suspicious or unauthorized changes to files on monitored systems. Canary files can also serve as early indicators of potentially malicious activity, such as unauthorized modification or ransomware-related file activity.
+
+In this lab, the modification was intentionally performed and controlled. The purpose was to demonstrate how Wazuh can detect and document file integrity changes.
+
+Key Skills Demonstrated
+
+* Wazuh File Integrity Monitoring (FIM)
+* Wazuh Agent configuration
+* Real-time file monitoring
+* Windows PowerShell
+* Windows Server administration
+* Security event investigation
+* Hash-based file integrity detection
+* Wazuh Threat Hunting
+* Security evidence collection
+* SIEM-based event analysis
+
+ Conclusion
+
+This project demonstrated the configuration and validation of Wazuh File Integrity Monitoring using a Windows canary file. The canary file was created, monitored in real time, intentionally modified, and successfully detected by Wazuh.
+
+The resulting Rule 550 alert provided detailed evidence of the modification, including the affected file, monitoring mode, changed attributes, file size change, and cryptographic hash information.
+
+This demonstrates practical experience with **endpoint monitoring, file integrity detection, security event analysis, and SIEM investigation using Wazuh**.
 
 ---
 
