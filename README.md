@@ -246,7 +246,8 @@ cmd.exe /c "echo Sysmon Event ID 1 test"
 
 ### Evidence — Sysmon Event ID 1
 
-<img width="3024" height="2920" alt="image" src="https://github.com/user-attachments/assets/9443ae6f-b98c-45e9-a21f-890c8a81ca39" />
+<img width="3024" height="2193" alt="image" src="https://github.com/user-attachments/assets/5f79a5a2-bf23-4e78-8362-ac9b8f2d40a6" />
+
 
 
 ### Evidence — Wazuh Alert Ingestion
