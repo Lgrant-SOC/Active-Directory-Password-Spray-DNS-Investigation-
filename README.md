@@ -257,7 +257,8 @@ cmd.exe /c "echo Sysmon Event ID 1 test"
 
 ### Evidence — Wazuh Document Details
 
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/3d4548aa-9983-4e5a-8f8d-b0d1a31e659d" />
+<img width="3024" height="1883" alt="image" src="https://github.com/user-attachments/assets/0ebd89cb-c42d-45f0-89ae-1ae45e3598ae" />
+
 
 
 
