@@ -190,12 +190,14 @@ The Sysmon telemetry was forwarded through the Wazuh agent and successfully inge
 
 **Evidence — Wazuh Alert 
 
-<img width="3024" height="1883" alt="image" src="https://github.com/user-attachments/assets/6ac1af4f-59b9-4c56-84a8-2db8df66099e" />
+<img width="3024" height="3373" alt="image" src="https://github.com/user-attachments/assets/721f3cd9-ce65-49f5-b384-4331f09ccee0" />
+
 
 
 **Evidence — Wazuh Document Details**
 
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/0fc59a22-550f-4de3-ac6d-8438e77de5a5" />
+<img width="3024" height="1883" alt="image" src="https://github.com/user-attachments/assets/3ea1cac1-7159-4688-84ea-cd957dd84b7a" />
+
 
 
 ### Skills Demonstrated
