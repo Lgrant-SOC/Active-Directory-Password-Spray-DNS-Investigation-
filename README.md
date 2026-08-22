@@ -232,10 +232,6 @@ Configured Wazuh File Integrity Monitoring (FIM) to detect unauthorized or unexp
 
 Created a dedicated Canary directory and financial-record test file using PowerShell.
 
-```powershell
-New-Item -Path "C:\Canary" -ItemType Directory -Force
-New-Item -Path "C:\Canary\Important-Financial-Record.txt" -ItemType File -Force
-```
 
 **Evidence — Canary File Creation**
 
@@ -246,9 +242,6 @@ New-Item -Path "C:\Canary\Important-Financial-Record.txt" -ItemType File -Force
 
 Configured the Wazuh agent to monitor the Canary directory in real time.
 
-```xml
-<directories realtime="yes">C:\Canary</directories>
-```
 
 **Evidence — Wazuh FIM Configuration**
 
@@ -259,9 +252,6 @@ Configured the Wazuh agent to monitor the Canary directory in real time.
 
 Modified the monitored file to simulate a change to a sensitive file and trigger FIM detection.
 
-```powershell
-Add-Content -Path 'C:\Canary\Important-Financial-Record.txt' -Value 'Canary realtime test'
-```
 
 **Evidence — Controlled File Modification**
 
