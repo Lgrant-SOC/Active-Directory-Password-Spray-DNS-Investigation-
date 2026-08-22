@@ -119,9 +119,10 @@ The rule was configured in:
 </group>
 ```
 
-**Evidence — Custom Wazuh XML Rule**
+**Evidence — Hydra authentication test**
 
-[INSERT SCREENSHOT HERE]
+<img width="3024" height="3152" alt="image" src="https://github.com/user-attachments/assets/6d47bc34-dc6d-40d5-9c7d-d305df3dc5b3" />
+
 
 ### Detection Testing
 
@@ -129,9 +130,10 @@ Generated controlled failed authentication attempts from Kali Linux against the 
 
 Five failed-logon events were observed within approximately three seconds, with the events associated with Wazuh Rule `60122`.
 
-**Evidence — Authentication Test / Event Ingestion**
+**Evidence — Event Ingestion**
 
-<img width="3024" height="3152" alt="image" src="https://github.com/user-attachments/assets/246cf788-10c9-4e12-8782-1429e542bb14" />
+<img width="2871" height="2686" alt="image" src="https://github.com/user-attachments/assets/399edb35-dd3a-47e6-a699-ecf737eff6af" />
+
 
 
 ### Wazuh Investigation
