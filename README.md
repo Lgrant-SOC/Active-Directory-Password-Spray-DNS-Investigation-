@@ -1,143 +1,112 @@
-CYBERSECURITY LAB PORTFOLIO 
+# CYBERSECURITY LAB PORTFOLIO
 
-PROJECT 1: ACTIVE DIRECTORY AND PASSWORD-SPRAY ALONG WITH WAZUH INVESTIGATION
+---
 
- OVERVIEW
-Simulated a controlled RDP password-guessing attack from a Kali Linux attacker (192.168.56.109) against a Windows workstation (192.168.56.106) using Hydra. During validation, the Windows authentication telemetry initially displayed the source as 127.0.0.1 due to the Ethernet Adapter 1 configuration. After correcting the configuration, Event ID 4625 successfully recorded the correct remote authentication source, identifying the Kali attacker as 192.168.56.109.
+# PROJECT 1: ACTIVE DIRECTORY, PASSWORD-SPRAY & WAZUH INVESTIGATION
 
- OBJECTIVE 
-* Execute a controlled Hydra authentication attack against RDP.
-* Investigate Windows Event ID 4625 authentication failures.
-* Troubleshoot the initial network configuration issue.
-* Verify the correct attacker IP and workstation in Windows telemetry.
-* Analyze NTLM authentication data.
-* Validate the activity through Wazuh.
+### Overview
 
- Network Configuration Troubleshooting
-During the initial validation, Event ID 4625 recorded the authentication source as 127.0.0.1.
+Simulated a controlled RDP password-guessing attack from Kali Linux against a Windows workstation using Hydra. Investigated the resulting authentication failures in Windows Event Viewer and validated the activity through Wazuh.
 
-The issue was traced to the VirtualBox Ethernet Adapter 1 configuration. After correcting the adapter configuration, the Windows security telemetry accurately reflected the remote authentication source.
+### Lab Environment
 
-Initial Source: 127.0.0.1
+* **Attacker:** Kali Linux — `192.168.56.109`
+* **Target:** Windows Workstation — `192.168.56.106`
+* **Protocol:** RDP / TCP 3389
+* **Account:** `TargetUser`
+* **Tool:** Hydra v9.6
+* **SIEM:** Wazuh
+* **Virtualization:** VirtualBox
 
-Corrected Source: 192.168.56.109
+### Network Configuration Troubleshooting
 
-<img width="1170" height="676" alt="image" src="https://github.com/user-attachments/assets/3acb8efe-cfcc-49ab-8ceb-09f256fdf7c5" />
+During initial testing, Windows Event ID 4625 incorrectly reported the authentication source as `127.0.0.1`. I traced the issue to the VirtualBox Ethernet Adapter 1 configuration and corrected the network setup.
 
+After the correction, Windows security telemetry accurately identified the remote Kali attacker as `192.168.56.109`.
 
+* **Initial Source:** `127.0.0.1`
+* **Corrected Source:** `192.168.56.109`
 
- Hydra Attack
-Hydra v9.6 was executed from the Kali Linux attacker machine (192.168.56.109) against the Windows workstation (192.168.56.106) over RDP/TCP 3389 using the TargetUser account.
+**Evidence — Initial Source**
 
-Attack Result: 0 valid password found
-
- Attack Details
-Item	Details
-Attacker	Kali Linux
-Attacker IP	192.168.56.109
-Target	Windows Workstation
-Target IP	192.168.56.106
-Protocol	RDP
-Port	3389
-Account	TargetUser
-Tool	Hydra v9.6
-Result	0 valid password found
-
- EVIDENCE  — Hydra Attack
-<img width="1169" height="846" alt="image" src="https://github.com/user-attachments/assets/7e9ab8b9-9e01-4030-bb2f-99e0d411b29b" />
+<img width="2506" height="1433" alt="image" src="https://github.com/user-attachments/assets/b181d72b-3631-49d3-bca1-73281ca6ae34" />
 
 
- Windows Event Investigation
-Following the authentication attempts, Windows Event Viewer was used to investigate the resulting authentication failures.
+### Attack Simulation
 
-Event ID: 4625 — An account failed to log on
+Executed Hydra v9.6 from Kali Linux against the Windows workstation over RDP using the `TargetUser` account.
 
-Result: Audit Failure
+**Result:** `0 valid password found`
 
-The corrected Event ID 4625 provided the following authentication telemetry:
+**Evidence — Hydra Attack**
 
-Event ID:                4625
-Logon Type:              3
-Logon Process:           NtLmSsp
-Authentication Package:  NTLM
-Workstation Name:        kali-attacker
-Source IP:               192.168.56.109
-Result:                  Audit Failure
-
-The WorkstationName and IpAddress fields provided evidence connecting the failed authentication event to the Kali attacker machine.
-
-EVIDENCE — Event ID 4625
-<img width="1168" height="1178" alt="image" src="https://github.com/user-attachments/assets/62bcc641-2285-49cf-8366-681052c272dc" />
-
- EVIDENCE — Event 4625 Raw XML
-<img width="1169" height="1113" alt="image" src="https://github.com/user-attachments/assets/3f12bbbe-6a04-4336-ba9a-f879b95e0e06" />
+<img width="1724" height="1394" alt="image" src="https://github.com/user-attachments/assets/2c0f3dcd-86bd-4277-8182-72c46368cfff" />
 
 
- Wazuh Detection
-The Windows security telemetry was collected by the Wazuh agent and analyzed by the Wazuh manager.
+### Windows Event Investigation
 
-The Wazuh investigation was used to validate that the Windows authentication activity was successfully collected and processed by the SIEM.
+Investigated the resulting authentication failures using Windows Event Viewer. Event ID 4625 confirmed failed authentication attempts and provided the source system and NTLM authentication details.
 
- EVIDENCE  — Wazuh Alert
-<img width="1169" height="1186" alt="image" src="https://github.com/user-attachments/assets/4d59d44f-dd8e-4b96-a7b4-eafb73a8ebd9" />
+* **Event ID:** 4625
+* **Logon Type:** 3
+* **Logon Process:** NtLmSsp
+* **Authentication:** NTLM
+* **Workstation:** `kali-attacker`
+* **Source IP:** `192.168.56.109`
+* **Result:** Audit Failure
 
+**Evidence — Event ID 4625**
 
- INVESTIGATION FLOW
-Kali Linux
-192.168.56.109
-      ↓
-Hydra v9.6
-      ↓
-RDP / TCP 3389
-      ↓
-Windows Workstation
-192.168.56.106
-      ↓
-Event ID 4625
-      ↓
-Source: 192.168.56.109
-      ↓
-Wazuh
-
- TOOLS 
-Kali Linux • Hydra v9.6 • Windows • Active Directory • RDP • Windows Event Viewer • Wazuh • VirtualBox
-
- SKILLS DEMONSTRATED 
-Authentication Attack Simulation • Windows Event Analysis • Event ID 4625 Analysis • Network Troubleshooting • VirtualBox Network Configuration • NTLM Analysis • Source IP Attribution • Wazuh SIEM • Attack-to-Telemetry Correlation
+<img width="1168" height="1178" alt="image" src="https://github.com/user-attachments/assets/d083a5d5-9ed7-4925-99df-5e6dabf2fe97" />
 
 
- PROJECT 2:WAZUH BRUTE-FORCE DETECTION USING A CUSTOM XML RULE 
+**Evidence — Event 4625 Raw XML**
 
- OVERVIEW 
-This project demonstrates the creation and testing of a custom Wazuh detection rule designed to identify repeated failed authentication attempts against a Windows Server.
+<img width="1169" height="1113" alt="image" src="https://github.com/user-attachments/assets/b46f58c7-9104-4ed1-85ed-203704875c8e" />
 
-The detection was tested in an isolated VirtualBox lab using Kali Linux as the source of the authentication attempts, Windows Server as the target, and Wazuh for security monitoring and alert analysis.
 
- LAB ENVIRONMENT 
-- Kali Linux — authentication test source
-- Windows Server — monitored target
-- Ubuntu — Wazuh Manager and Dashboard
-- VirtualBox — isolated lab environment
+### Wazuh Validation
 
- NETWORK 
+The Windows security telemetry was collected by the Wazuh agent and processed by the Wazuh manager, providing centralized SIEM visibility into the authentication activity.
 
-| System | IP Address | Role |
-|---|---|---|
-| Wazuh/Ubuntu | 192.168.56.105 | Wazuh Manager |
-| Windows Server | 192.168.56.106 | Monitored endpoint |
-| Kali Linux | 192.168.56.109 | Authentication test source |
+**Evidence — Wazuh Alert**
 
- DETECTION OBJECTIVE 
-The objective was to create a custom Wazuh XML rule capable of identifying multiple failed authentication attempts occurring within a 60-second period.
+<img width="1169" height="1186" alt="image" src="https://github.com/user-attachments/assets/15659133-c6a4-40bc-a4a0-704258051e96" />
 
-The authentication failures generate Windows Security Event ID 4625.
 
- Custom Wazuh Rule
-The custom XML rule is located in:
+### Skills Demonstrated
+
+* Authentication Attack Simulation
+* Windows Event Analysis
+* NTLM Analysis
+* Network Troubleshooting
+* Source IP Attribution
+* Wazuh SIEM
+* Attack-to-Telemetry Correlation
+
+---
+
+# PROJECT 2: WAZUH BRUTE-FORCE DETECTION USING A CUSTOM XML RULE
+
+### Overview
+
+Developed and tested a custom Wazuh detection rule to identify repeated Windows failed-logon events and flag potential brute-force authentication activity.
+
+### Lab Environment
+
+* **Kali Linux:** Authentication test source — `192.168.56.109`
+* **Windows Server:** Monitored endpoint — `192.168.56.106`
+* **Ubuntu:** Wazuh Manager/Dashboard — `192.168.56.105`
+* **VirtualBox:** Isolated lab environment
+
+### Detection Logic
+
+Created a custom Wazuh rule to correlate five Windows Security Event ID 4625 failures within 60 seconds.
+
+The rule was configured in:
 
 `rules/local_rules.xml`
 
-The rule is designed to correlate repeated Windows failed-logon events and identify potential brute-force authentication activity.
 ```xml
 <group name="windows, security,">
   <rule id="100002" level="10" frequency="5" timeframe="60">
@@ -150,264 +119,179 @@ The rule is designed to correlate repeated Windows failed-logon events and ident
 </group>
 ```
 
+**Evidence — Custom Wazuh XML Rule**
+
+[INSERT SCREENSHOT HERE]
+
+### Detection Testing
+
+Generated controlled failed authentication attempts from Kali Linux against the Windows Server `TargetUser` account.
+
+Five failed-logon events were observed within approximately three seconds, with the events associated with Wazuh Rule `60122`.
+
+**Evidence — Authentication Test / Event Ingestion**
+
+<img width="3024" height="3152" alt="image" src="https://github.com/user-attachments/assets/246cf788-10c9-4e12-8782-1429e542bb14" />
 
 
- TESTING
-The test generated failed authentication attempts from the Kali Linux system against the Windows Server account `TargetUser`.
+### Wazuh Investigation
 
-Windows Security Event ID 4625 was generated for the failed authentication attempts.
+Reviewed the Wazuh Threat Hunting data and document details to confirm that the Windows authentication telemetry was successfully collected and processed.
 
-Wazuh successfully received the Windows security telemetry from the Windows Server agent.
+**Evidence — Wazuh Forensic Event Details**
 
-During testing, five failed-logon events were observed within approximately three seconds:
-
-- 07:26:32.4
-- 07:26:33.7
-- 07:26:33.7
-- 07:26:33.7
-- 07:26:35.3
-
-Each event was associated with Wazuh Rule 60122, `Logon Failure - Unknown...`.
-
- EVIDENCE
-* **Screenshot 1: Hydra Terminal Authentication Attack**
-<img width="3024" height="3152" alt="image" src="https://github.com/user-attachments/assets/4e68928a-abc0-4eff-b99d-cac891b33291" />
+<img width="2882" height="2809" alt="image" src="https://github.com/user-attachments/assets/21bb9aa5-e4cc-47f8-a5ae-a9d6b86f5904" />
 
 
+### Skills Demonstrated
 
-* **Screenshot 2: Wazuh Threat Hunting Dashboard Event Ingestion**
-<img width="2871" height="2686" alt="image" src="https://github.com/user-attachments/assets/e9920814-548a-4929-bd8a-4dc5c4e15616" />
+* Custom Wazuh Rule Development
+* Windows Event ID 4625 Analysis
+* Brute-Force Detection
+* SIEM Investigation
+* Authentication Monitoring
+* Event Correlation
+* Wazuh Rule Validation
 
+---
 
+# PROJECT 3: SYSMON PROCESS MONITORING & WAZUH DETECTION
 
-* **Screenshot 3: Wazuh Document Details Forensic Event Data**
-<img width="2882" height="2809" alt="image" src="https://github.com/user-attachments/assets/c727742e-2293-4032-80ba-414c73590831" />
+### Overview
 
+Configured Microsoft Sysmon to capture Windows Process Creation events and integrated the telemetry with Wazuh for centralized security monitoring and investigation.
 
+### Lab Environment
 
- WHAT THIS DEMONSTRATES 
-This project demonstrates hands-on experience with:
-- Creating custom Wazuh XML detection rules
-- Windows Security Event ID 4625 analysis
-- Failed authentication monitoring
-- Wazuh rule testing and validation
-- SIEM event investigation
-- Correlating authentication activity between an endpoint and SIEM
-- Investigating potential brute-force authentication behavior
+* **Wazuh Manager/Dashboard:** Ubuntu — `192.168.56.105`
+* **Endpoint:** Windows Server — `192.168.56.106`
+* **Sysmon:** v15.21
+* **Wazuh Agent:** v4.12.0
+* **Primary Event:** Sysmon Event ID 1
 
- TOOLS 
-- Wazuh
-- Wazuh Dashboard
-- Windows Event Viewer
-- Windows Server
-- Kali Linux
-- FreeRDP
-- VirtualBox
+### Controlled Process Test
 
+Executed a controlled `cmd.exe` process to validate Sysmon process monitoring.
 
- PROJECT 3: SYSMON PROCESS MONITORING & WAZUH DETECTION 
-
- OVERVIEW 
-
-Configured Microsoft Sysmon on a Windows Server to capture Process Creation events (Event ID 1) and integrated Sysmon telemetry with Wazuh for centralized monitoring and detection.
-
-A controlled `cmd.exe` process was executed to validate the configuration. Sysmon captured the activity, and Wazuh successfully ingested and detected the event.
-
- OBJECTIVE 
-
-- Configure Sysmon to monitor process creation.
-- Integrate Sysmon logs with Wazuh.
-- Generate a controlled Process Creation event.
-- Validate Event ID 1 in Windows Event Viewer.
-- Investigate the event in Wazuh Threat Hunting.
-
- LAB ENVIRONMENT 
-
-| Component | Configuration |
-|---|---|
-| Wazuh Manager/Dashboard | Ubuntu |
-| Endpoint | Windows Server |
-| Sysmon | v15.21 |
-| Wazuh Agent | v4.12.0 |
-| Windows Server IP | 192.168.56.106 |
-| Wazuh Manager IP | 192.168.56.105 |
-| Primary Event | Sysmon Event ID 1 |
-
- Controlled Test
-
-Executed:
-
-```powershell
+```cmd
 cmd.exe /c "echo Sysmon Event ID 1 test"
 ```
 
- EVIDENCE — Sysmon Event ID 1
+Sysmon captured the process creation activity as Event ID 1.
 
-<img width="3024" height="2193" alt="image" src="https://github.com/user-attachments/assets/5f79a5a2-bf23-4e78-8362-ac9b8f2d40a6" />
+**Evidence — Sysmon Event ID 1**
 
-
-
- EVIDENCE — Wazuh Alert Ingestion
-
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/ef7aa9c4-b4c0-4126-9254-e7f80f9e9d83" />
+<img width="3024" height="2193" alt="image" src="https://github.com/user-attachments/assets/fe31578c-576c-4bd5-8849-f0826d1ce0e6" />
 
 
- EVIDENCE — Wazuh Document Details
+### Wazuh Detection
 
-<img width="3024" height="1883" alt="image" src="https://github.com/user-attachments/assets/0ebd89cb-c42d-45f0-89ae-1ae45e3598ae" />
+The Sysmon telemetry was forwarded through the Wazuh agent and successfully ingested into the Wazuh Dashboard for centralized investigation.
+
+**Evidence — Wazuh Alert 
+
+<img width="3024" height="1883" alt="image" src="https://github.com/user-attachments/assets/6ac1af4f-59b9-4c56-84a8-2db8df66099e" />
 
 
+**Evidence — Wazuh Document Details**
 
-PROJECT 4: WAZUH FILE INTEGRITY MONITORING & CANARY FILE DETECTION 
+<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/0fc59a22-550f-4de3-ac6d-8438e77de5a5" />
 
-OVERVIEW 
 
-This project demonstrates the use of **Wazuh File Integrity Monitoring (FIM)** to detect unauthorized changes to a monitored Windows file. A canary file was created on the Windows Server and configured for real-time monitoring through the Wazuh agent.
+### Skills Demonstrated
 
-A controlled modification was then made to the canary file to simulate suspicious file activity. Wazuh detected the change and generated an integrity alert containing file and cryptographic hash information.
+* Sysmon
+* Process Monitoring
+* Windows Event Analysis
+* Wazuh SIEM
+* Endpoint Telemetry
+* Security Event Investigation
+* SIEM Log Correlation
 
-OBJECTIVE 
+---
 
-* Configure Wazuh FIM to monitor a specific Windows directory.
-* Enable real-time monitoring of the monitored directory.
-* Create a canary file to serve as a monitored security indicator.
-* Perform a controlled modification to the file.
-* Verify that Wazuh detects the modification.
-* Capture the resulting Wazuh alert as security evidence.
+# PROJECT 4: WAZUH FILE INTEGRITY MONITORING & CANARY FILE DETECTION
 
-LAB ENVIRONMENT 
+### Overview
 
-| Component           | Configuration                              |
-| ------------------- | ------------------------------------------ |
-| Wazuh Manager       | Ubuntu                                     |
-| Wazuh Dashboard     | Ubuntu                                     |
-| Windows Server      | Wazuh Agent                                |
-| Windows Server IP   | `192.168.56.106`                           |
-| Wazuh Manager IP    | `192.168.56.105`                           |
-| Monitored Directory | `C:\Canary`                                |
-| Monitored File      | `C:\Canary\Important-Financial-Record.txt` |
+Configured Wazuh File Integrity Monitoring (FIM) to detect unauthorized or unexpected changes to a monitored Windows canary file in real time.
 
-1. Create the Canary Directory and File
+### Lab Environment
 
-A dedicated `C:\Canary` directory was created on the Windows Server. A file named `Important-Financial-Record.txt` was then created inside the directory.
+* **Wazuh Manager:** Ubuntu — `192.168.56.105`
+* **Target Endpoint:** Windows Server — `192.168.56.106`
+* **Wazuh Agent:** Windows
+* **Monitored Directory:** `C:\Canary`
+* **Canary File:** `Important-Financial-Record.txt`
 
-PowerShell Commands
+### Canary File Creation
 
-powershell
+Created a dedicated Canary directory and financial-record test file using PowerShell.
+
+```powershell
 New-Item -Path "C:\Canary" -ItemType Directory -Force
-
 New-Item -Path "C:\Canary\Important-Financial-Record.txt" -ItemType File -Force
+```
+
+**Evidence — Canary File Creation**
+
+<img width="2558" height="2482" alt="image" src="https://github.com/user-attachments/assets/e3e08a38-acf6-4e2f-ade3-bafc0e19ea5c" />
 
 
-EVIDENCE 1 — Canary File Creation
+### Real-Time FIM Configuration
 
-<img width="2558" height="2482" alt="image" src="https://github.com/user-attachments/assets/918580f0-c31d-43f9-8163-2fefb117a13a" />
+Configured the Wazuh agent to monitor the Canary directory in real time.
 
-
-
-This confirms that the monitored directory and canary file were successfully created on the Windows Server.
-
-2. Configure Wazuh Real-Time File Integrity Monitoring
-
-The Windows Wazuh agent configuration was updated to monitor the Canary directory using real-time File Integrity Monitoring.
-
-The following configuration was added inside the `<syscheck>` section of `ossec.conf`:
-
-xml
+```xml
 <directories realtime="yes">C:\Canary</directories>
+```
+
+**Evidence — Wazuh FIM Configuration**
+
+<img width="3024" height="2422" alt="image" src="https://github.com/user-attachments/assets/8f1b3afc-3bf8-43b3-a58d-a328987bd200" />
 
 
-The Wazuh agent was then restarted so the updated configuration could take effect.
+### Controlled File Modification
 
-EVIDENCE 2 — Real-Time FIM Configuration
+Modified the monitored file to simulate a change to a sensitive file and trigger FIM detection.
 
-<img width="3024" height="2422" alt="image" src="https://github.com/user-attachments/assets/b8ed87da-b87e-49c4-b0d8-23877a686afc" />
-
-
-This configuration instructs the Wazuh agent to monitor the Canary directory for file integrity changes in real time.
-
-3. Perform a Controlled File Modification
-
-After real-time monitoring was enabled, the canary file was intentionally modified using PowerShell.
-
-PowerShell Command
-
-powershell
+```powershell
 Add-Content -Path 'C:\Canary\Important-Financial-Record.txt' -Value 'Canary realtime test'
+```
+
+**Evidence — Controlled File Modification**
+
+<img width="3024" height="2237" alt="image" src="https://github.com/user-attachments/assets/ae47b5fa-c881-4f74-9b34-88fecea13071" />
 
 
-The command modified the contents of the monitored file, creating a controlled file-integrity event.
+### Wazuh Detection
 
-EVIDENCE 3 — Canary File Modification
-
- <img width="3024" height="2237" alt="image" src="https://github.com/user-attachments/assets/aab33ba0-be1d-44a6-8766-9455fe2c82af" />
-
-
-4. Verify Wazuh Detection
-
-After the file was modified, the Wazuh Dashboard was used to verify that the event was detected.
-
-The Threat Hunting view identified **Rule ID 550**, with the description:
-
-`Integrity checksum changed.`
-
-The detailed event identified the monitored file and showed that multiple file attributes changed.
-
-EVIDENCE 4 — Wazuh FIM Alert
-
-<img width="3024" height="3027" alt="image" src="https://github.com/user-attachments/assets/f01102e4-6aea-4e19-acff-27142abf4ba7" />
-
-
-The alert identified:
+Wazuh detected the modification through **Rule 550 — Integrity checksum changed** and reported changes to the file's size, modification time, and cryptographic hashes.
 
 * **File:** `C:\Canary\Important-Financial-Record.txt`
 * **Mode:** `realtime`
-* **Decoder:** `syscheck_integrity_changed`
-* **Rule:** `550`
 * **Agent:** `WIN-E1SKA42GQ7G`
-* **Agent IP:** `192.168.56.106`
-* **Manager:** `brai-VirtualBox`
-* **Changed attributes:** size, modification time, MD5, SHA1, and SHA256
-* **File size:** changed from 43 bytes to 65 bytes
+* **Rule ID:** `550`
+* **Changed Attributes:** Size, mtime, MD5, SHA1, SHA256
 
- RESULTS
+**Evidence — Wazuh FIM Detection**
 
-The test successfully demonstrated end-to-end file integrity monitoring using Wazuh.
+<img width="3024" height="3027" alt="image" src="https://github.com/user-attachments/assets/b1117fd0-f1e6-43f6-9966-1a25e6eb23e5" />
 
-The workflow was:
 
-```text
-Create Canary File
-        ↓
-Configure Wazuh Real-Time FIM
-        ↓
-Modify Canary File
-        ↓
-Wazuh Detects Change
-        ↓
-Rule 550: Integrity Checksum Changed
-```
+### Result
 
-The Wazuh alert confirmed that the agent detected the file modification in real time and recorded changes to the file's metadata and cryptographic hashes.
+Successfully demonstrated real-time file integrity monitoring by creating a canary file, modifying it in a controlled test, and validating the resulting Wazuh detection.
 
-SECURITY SIGNIFICANCE
+### Skills Demonstrated
 
-File Integrity Monitoring can help identify suspicious or unauthorized changes to files on monitored systems. Canary files can also serve as early indicators of potentially malicious activity, such as unauthorized modification or ransomware-related file activity.
-
-In this lab, the modification was intentionally performed and controlled. The purpose was to demonstrate how Wazuh can detect and document file integrity changes.
-
-KEY SKILLS
-
-* Wazuh File Integrity Monitoring (FIM)
-* Wazuh Agent configuration
-* Real-time file monitoring
-* Windows PowerShell
-* Windows Server administration
-* Security event investigation
-* Hash-based file integrity detection
-* Wazuh Threat Hunting
-* Security evidence collection
-* SIEM-based event analysis
+* Wazuh File Integrity Monitoring
+* Windows Server
+* PowerShell
+* SIEM Monitoring
+* File Integrity Analysis
+* Security Event Investigation
+* Real-Time Endpoint Monitoring
 
  
 
