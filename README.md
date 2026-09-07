@@ -288,6 +288,122 @@ Successfully demonstrated real-time file integrity monitoring by creating a cana
 * Real-Time Endpoint Monitoring
 
  
+# CYBERSECURITY LAB PORTFOLIO
+
+---
+
+# PROJECT 5: WINDOWS DNS TROUBLESHOOTING & NETWORK CONFIGURATION
+
+### Overview
+
+Simulated a Windows DNS troubleshooting scenario in a controlled VirtualBox lab. Investigated network connectivity, multiple network interfaces, routing, and DNS resolution before identifying and correcting an interface priority issue.
+
+### Lab Environment
+
+* **Client:** Windows Workstation — `192.168.56.110`
+* **NAT Address:** `10.0.2.15`
+* **Default Gateway:** `10.0.2.2`
+* **DNS Tested:** Google Public DNS — `8.8.8.8`
+* **Virtualization:** VirtualBox
+
+### Network Connectivity Testing
+
+Verified local gateway and Internet connectivity before troubleshooting DNS.
+
+* **Gateway:** `10.0.2.2`
+* **Internet:** `8.8.8.8`
+* **Result:** Successful connectivity
+
+**Evidence — Gateway Connectivity**
+
+**Evidence — Internet Connectivity**
+
+<img width="2822" height="2724" alt="image" src="https://github.com/user-attachments/assets/d8674f1c-bfca-4d9c-85f2-1252d883435e" />
+
+
+### Network Configuration
+
+The Windows workstation used two network interfaces: Ethernet 2 for the Host-only lab network and Ethernet for the NAT network.
+
+**Evidence — Network Adapters**
+
+<img width="3024" height="3024" alt="image" src="https://github.com/user-attachments/assets/ab7b7026-e215-4e6c-b837-eb70e5d6b405" />
+
+
+The IPv4 routing table confirmed separate routes for the NAT and Host-only networks.
+
+**Evidence — IPv4 Routing Configuration**
+
+<img width="3024" height="2599" alt="image" src="https://github.com/user-attachments/assets/073b1cda-0efd-4831-b693-7954b6ed5d78" />
+
+
+### DNS Resolution Investigation
+
+During initial testing, `nslookup google.com` timed out while selecting `192.168.56.106`.
+
+* **Initial Address:** `192.168.56.106`
+* **Result:** DNS request timed out
+
+**Evidence — DNS Resolution Failure**
+
+<img width="2806" height="2506" alt="image" src="https://github.com/user-attachments/assets/a4632ec8-cd01-4c00-8fa3-d485402710c1" />
+
+
+A direct query to Google Public DNS successfully resolved `google.com`, confirming that external DNS resolution was available.
+
+**Evidence — Direct DNS Test**
+
+<img width="2820" height="3043" alt="image" src="https://github.com/user-attachments/assets/98781ef5-35e7-4d96-a641-7e25b0f83026" />
+
+
+### Network Interface Configuration
+
+Reviewed IPv4 interface metrics to determine network interface priority.
+
+* **Ethernet 2:** `10`
+* **Ethernet:** `25`
+* **Loopback:** `75`
+
+**Evidence — IPv4 Interface Metrics**
+
+
+
+
+### Configuration Correction
+
+Changed the Ethernet interface metric from `25` to `5` to give it higher priority.
+
+```powershell
+Set-NetIPInterface -InterfaceAlias "Ethernet" -AddressFamily IPv4 -InterfaceMetric 5
+```
+
+**Evidence — Interface Metric Correction**
+
+<img width="2730" height="3073" alt="image" src="https://github.com/user-attachments/assets/1a8e1286-7d42-4e43-acd0-ea410113ca58" />
+
+
+### DNS Verification
+
+After correcting the interface priority, normal `nslookup google.com` successfully used Google Public DNS.
+
+* **DNS Server:** `8.8.8.8`
+* **Hostname:** `google.com`
+* **Result:** Successful DNS resolution
+
+**Evidence — Successful DNS Resolution**
+
+<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/cc28ff01-5b09-4596-bcf8-7a48410865d7" />
+
+
+A final `ping google.com` confirmed successful hostname resolution and connectivity with `0%` packet loss.
+
+**Evidence — Final Connectivity Verification**
+
+[INSERT SCREENSHOT: ping google.com showing 0% packet loss]
+
+### Conclusion
+
+Identified and corrected a network interface priority issue affecting DNS resolution. Final testing confirmed successful DNS resolution and network connectivity.
 
 ---
 
