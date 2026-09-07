@@ -366,6 +366,7 @@ Reviewed IPv4 interface metrics to determine network interface priority.
 
 **Evidence — IPv4 Interface Metrics**
 
+<img width="3024" height="2683" alt="image" src="https://github.com/user-attachments/assets/9120d722-332f-41ad-8062-8f0e318ee93a" />
 
 
 
@@ -399,7 +400,8 @@ A final `ping google.com` confirmed successful hostname resolution and connectiv
 
 **Evidence — Final Connectivity Verification**
 
-[INSERT SCREENSHOT: ping google.com showing 0% packet loss]
+<img width="3024" height="2624" alt="image" src="https://github.com/user-attachments/assets/f46ae794-3142-4207-882a-660f027bba15" />
+
 
 ### Conclusion
 
