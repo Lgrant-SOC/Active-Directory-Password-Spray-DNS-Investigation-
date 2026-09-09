@@ -296,116 +296,137 @@ Successfully demonstrated real-time file integrity monitoring by creating a cana
 
 ### Overview
 
-Simulated a Windows DNS troubleshooting scenario in a controlled VirtualBox lab. Investigated network connectivity, multiple network interfaces, routing, and DNS resolution before identifying and correcting an interface priority issue.
+Simulated a Help Desk ticket involving a Windows workstation that had Internet connectivity but was unable to resolve websites by hostname. Used a structured troubleshooting process to identify the DNS problem, test a known-good DNS server, correct the DNS configuration, and verify the fix.
 
 ### Lab Environment
 
-* **Client:** Windows Workstation — `192.168.56.110`
-* **NAT Address:** `10.0.2.15`
-* **Default Gateway:** `10.0.2.2`
-* **DNS Tested:** Google Public DNS — `8.8.8.8`
+* **Client:** Windows Workstation
 * **Virtualization:** VirtualBox
+* **Host-only IP:** `192.168.56.110`
+* **NAT IP:** `10.0.2.15`
+* **Default Gateway:** `10.0.2.2`
+* **DNS Server Tested:** Google Public DNS — `8.8.8.8`
 
-### Network Connectivity Testing
+### Help Desk Troubleshooting
 
-Verified local gateway and Internet connectivity before troubleshooting DNS.
+#### 1. Verify Network Connectivity
 
-* **Gateway:** `10.0.2.2`
-* **Internet:** `8.8.8.8`
-* **Result:** Successful connectivity
+Started by testing the default gateway to confirm the workstation had local network connectivity.
 
 **Evidence — Gateway Connectivity**
 
+The gateway responded successfully.
+
+Next, tested Internet connectivity using Google's public IP address.
+
 **Evidence — Internet Connectivity**
 
-<img width="2822" height="2724" alt="image" src="https://github.com/user-attachments/assets/d8674f1c-bfca-4d9c-85f2-1252d883435e" />
+<img width="2822" height="2724" alt="image" src="https://github.com/user-attachments/assets/9266086e-7c64-4c82-85d9-ab192877e702" />
 
 
-### Network Configuration
+The test was successful, confirming that Internet connectivity was available.
 
-The Windows workstation used two network interfaces: Ethernet 2 for the Host-only lab network and Ethernet for the NAT network.
+#### 2. Review Network Configuration
 
-**Evidence — Network Adapters**
+Used `ipconfig` to review the workstation's network adapters, IP addresses, and default gateway.
 
-<img width="3024" height="3024" alt="image" src="https://github.com/user-attachments/assets/ab7b7026-e215-4e6c-b837-eb70e5d6b405" />
+**Evidence — Network Configuration**
 
-
-The IPv4 routing table confirmed separate routes for the NAT and Host-only networks.
-
-**Evidence — IPv4 Routing Configuration**
-
-<img width="3024" height="2599" alt="image" src="https://github.com/user-attachments/assets/073b1cda-0efd-4831-b693-7954b6ed5d78" />
+<img width="3024" height="3024" alt="image" src="https://github.com/user-attachments/assets/4d2ae0f1-2563-4451-95eb-1112933f2222" />
 
 
-### DNS Resolution Investigation
+The workstation had separate Host-only and NAT network connections.
 
-During initial testing, `nslookup google.com` timed out while selecting `192.168.56.106`.
+#### 3. Test DNS Resolution
 
-* **Initial Address:** `192.168.56.106`
-* **Result:** DNS request timed out
+Tested hostname resolution with:
+
+```cmd
+nslookup google.com
+```
+
+The request timed out and selected `192.168.56.106` as the DNS server.
 
 **Evidence — DNS Resolution Failure**
 
-<img width="2806" height="2506" alt="image" src="https://github.com/user-attachments/assets/a4632ec8-cd01-4c00-8fa3-d485402710c1" />
+<img width="2806" height="2506" alt="image" src="https://github.com/user-attachments/assets/2a29f93c-c45d-4a05-9696-5a8284af931f" />
 
 
-A direct query to Google Public DNS successfully resolved `google.com`, confirming that external DNS resolution was available.
+This showed that the workstation had network connectivity, but normal DNS resolution was failing.
+
+#### 4. Test a Known-Good DNS Server
+
+Queried Google Public DNS directly:
+
+```cmd
+nslookup google.com 8.8.8.8
+```
+
+The query successfully returned Google's addresses.
 
 **Evidence — Direct DNS Test**
 
-<img width="2820" height="3043" alt="image" src="https://github.com/user-attachments/assets/98781ef5-35e7-4d96-a641-7e25b0f83026" />
+<img width="2820" height="1735" alt="image" src="https://github.com/user-attachments/assets/75142cd8-f362-4458-960c-26dcdd091e6d" />
 
 
-### Network Interface Configuration
+This confirmed that external DNS resolution was working and helped isolate the problem to the workstation's DNS configuration.
 
-Reviewed IPv4 interface metrics to determine network interface priority.
+#### 5. Correct the DNS Configuration
 
-* **Ethernet 2:** `10`
-* **Ethernet:** `25`
-* **Loopback:** `75`
+Configured the workstation to use Google Public DNS (`8.8.8.8`) for DNS resolution.
 
-**Evidence — IPv4 Interface Metrics**
-
-<img width="3024" height="2683" alt="image" src="https://github.com/user-attachments/assets/9120d722-332f-41ad-8062-8f0e318ee93a" />
+<img width="3024" height="1626" alt="image" src="https://github.com/user-attachments/assets/eba734d8-cdbe-402e-92d5-8fa7c88682d5" />
 
 
+The goal was to correct the DNS configuration without changing the workstation's IP addressing or network connectivity.
 
-### Configuration Correction
+#### 6. Verify the Resolution
 
-Changed the Ethernet interface metric from `25` to `5` to give it higher priority.
+Ran the original DNS test again:
 
-```powershell
-Set-NetIPInterface -InterfaceAlias "Ethernet" -AddressFamily IPv4 -InterfaceMetric 5
+```cmd
+nslookup google.com
 ```
 
-**Evidence — Interface Metric Correction**
+The workstation successfully resolved `google.com` using:
 
-<img width="2730" height="3073" alt="image" src="https://github.com/user-attachments/assets/1a8e1286-7d42-4e43-acd0-ea410113ca58" />
-
-
-### DNS Verification
-
-After correcting the interface priority, normal `nslookup google.com` successfully used Google Public DNS.
-
-* **DNS Server:** `8.8.8.8`
-* **Hostname:** `google.com`
-* **Result:** Successful DNS resolution
+`8.8.8.8`
 
 **Evidence — Successful DNS Resolution**
 
-<img width="3024" height="4032" alt="image" src="https://github.com/user-attachments/assets/cc28ff01-5b09-4596-bcf8-7a48410865d7" />
+<img width="2820" height="1735" alt="image" src="https://github.com/user-attachments/assets/b5c79de3-33a4-4ad3-81a0-f11ecfd13250" />
 
 
-A final `ping google.com` confirmed successful hostname resolution and connectivity with `0%` packet loss.
+Finally, tested the hostname directly:
+
+```cmd
+ping google.com
+```
+
+The hostname resolved successfully with `0%` packet loss.
 
 **Evidence — Final Connectivity Verification**
 
-<img width="3024" height="2624" alt="image" src="https://github.com/user-attachments/assets/f46ae794-3142-4207-882a-660f027bba15" />
+<img width="3024" height="2624" alt="image" src="https://github.com/user-attachments/assets/f104799a-237f-4d98-baeb-c36c48252c05" />
 
 
-### Conclusion
+### Troubleshooting Outcome
 
-Identified and corrected a network interface priority issue affecting DNS resolution. Final testing confirmed successful DNS resolution and network connectivity.
+The issue was isolated to DNS resolution rather than general network connectivity. After correcting the DNS configuration, hostname resolution was restored and verified using `nslookup` and `ping`.
+
+### Help Desk Skills Demonstrated
+
+* Structured troubleshooting
+* Windows network configuration
+* DNS troubleshooting
+* `ipconfig`
+* `nslookup`
+* `ping`
+* Problem isolation
+* Configuration correction
+* Troubleshooting verification
+* Technical documentation
+
 
 ---
 
