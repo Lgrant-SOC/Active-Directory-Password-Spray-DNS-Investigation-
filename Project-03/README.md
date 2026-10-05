@@ -78,4 +78,53 @@ The Wazuh event view was used to confirm that Sysmon process telemetry was succe
 
 ---
 
+## 4. Process Investigation
+
+The collected telemetry was analyzed by reviewing the process execution chain.
+
+Parent-child process relationships were examined to determine which processes initiated other processes on the Windows endpoint.
+
+This provides useful context when investigating unexpected or potentially suspicious process execution.
+
+### Evidence
+
+**Process Execution Analysis**
+
+The captured Sysmon telemetry was reviewed to identify the process, parent process, user context, and execution details associated with the activity.
+
+---
+
+## Detection Workflow
+
+The investigation demonstrated the following workflow:
+
+**Windows Process Execution → Sysmon Event ID 1 → Wazuh Collection → Event Investigation → Process Analysis**
+
+---
+
+## Investigation Result
+
+Sysmon successfully provided detailed process execution telemetry from the Windows endpoint, while Wazuh centralized the resulting events for investigation.
+
+The project demonstrated how endpoint telemetry can improve visibility into process activity and provide additional context for security investigations.
+
+---
+
+## Skills Demonstrated
+
+* Sysmon Deployment
+* Sysmon Event ID 1 Analysis
+* Windows Endpoint Monitoring
+* Wazuh SIEM
+* Process Execution Analysis
+* Parent-Child Process Analysis
+* Endpoint Telemetry
+* Security Event Investigation
+* Windows Security Monitoring
+* Alert Investigation
+* Security Documentation
+
+
+---
+
 ##
